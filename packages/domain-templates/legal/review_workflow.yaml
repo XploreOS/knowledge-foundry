@@ -1,17 +1,17 @@
-stages:
+﻿stages:
   license_review:
     roles: [legal]
     required: true
-    min_approvals: 1
+    quorum: 1
   safety_review:
     roles: [supervising_attorney, legal]
     required: true
-    min_approvals: 2
+    quorum: 2
   evidence_review:
     roles: [supervising_attorney]
     required: true
-    min_approvals: 1
+    quorum: 1
   release_review:
     roles: [legal, supervising_attorney, product_owner]
     required: true
-    min_approvals: 1
+    quorum: 1

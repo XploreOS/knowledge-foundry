@@ -1,7 +1,6 @@
-license_classes:
+﻿license_classes:
   Green:
     description: Public regulatory filings and government data explicitly available for reuse; safe to ingest broadly.
-    ingestable: true
     requires_review: false
     default_allowed_uses:
       internal_search: true
@@ -13,7 +12,6 @@ license_classes:
       commercial_distribution: false
   Yellow:
     description: Reuse rights are unclear, such as a news article or aggregator feed without a confirmed license; requires legal review.
-    ingestable: false
     requires_review: true
     default_allowed_uses:
       internal_search: true
@@ -25,7 +23,6 @@ license_classes:
       commercial_distribution: false
   Orange:
     description: Paid market-data feeds or proprietary analyst research requiring contract approval before ingestion.
-    ingestable: false
     requires_review: true
     default_allowed_uses:
       internal_search: false
@@ -37,7 +34,6 @@ license_classes:
       commercial_distribution: false
   Red:
     description: Content containing material non-public information (MNPI) or explicitly prohibited from reuse.
-    ingestable: false
     requires_review: false
     default_allowed_uses:
       internal_search: false

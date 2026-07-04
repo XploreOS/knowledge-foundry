@@ -1,7 +1,6 @@
 license_classes:
   Green:
     description: Public-domain or explicitly licensed clinical guidelines and open-access literature; safe to ingest broadly.
-    ingestable: true
     requires_review: false
     default_allowed_uses:
       internal_search: true
@@ -13,7 +12,6 @@ license_classes:
       commercial_distribution: false
   Yellow:
     description: License or reuse terms are unclear (e.g. a journal article without a confirmed reuse license); requires legal review.
-    ingestable: false
     requires_review: true
     default_allowed_uses:
       internal_search: true
@@ -25,7 +23,6 @@ license_classes:
       commercial_distribution: false
   Orange:
     description: Paid clinical decision-support content or proprietary vendor guidelines requiring contract approval before ingestion.
-    ingestable: false
     requires_review: true
     default_allowed_uses:
       internal_search: false
@@ -37,7 +34,6 @@ license_classes:
       commercial_distribution: false
   Red:
     description: Content containing identifiable patient data, or explicitly prohibited from reuse (e.g. withdrawn or retracted guidance).
-    ingestable: false
     requires_review: false
     default_allowed_uses:
       internal_search: false
@@ -48,18 +44,10 @@ license_classes:
       customer_facing: false
       commercial_distribution: false
 blockers:
-  - id: contains-patient-identifiers
-    description: Source contains identifiable patient information (PHI) that has not been de-identified.
-    applies_to: source
-    action: block
-  - id: withdrawn-guideline
-    description: Source is a clinical guideline that has since been withdrawn or superseded.
-    applies_to: source
-    action: block
-  - id: single-institution-protocol
-    description: Source is an internal protocol from a single institution and may not generalize.
-    applies_to: source
-    action: flag
+  - "Contains patient identifiers: source contains identifiable patient information (PHI) that has not been de-identified (block)."
+  - "Withdrawn guideline: source is a clinical guideline that has since been withdrawn or superseded (block)."
+  - "Single-institution protocol: source is an internal protocol from a single institution and may not generalize (flag for review)."
+uncertain_defaults_to: Yellow
 source_types:
   - guideline
   - research_article

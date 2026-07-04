@@ -76,7 +76,19 @@ export const SourcePolicyYaml = z
         Red: LicenseClassPolicy,
       })
       .strict(),
-    blockers: z.array(z.string()),
+    blockers: z.array(
+      z.union([
+        z.string(),
+        z
+          .object({
+            id: z.string().min(1),
+            description: z.string(),
+            applies_to: z.string().optional(),
+            action: z.enum(['block', 'flag']).optional(),
+          })
+          .strict(),
+      ]),
+    ),
     source_types: z.array(z.string()).optional(),
     uncertain_defaults_to: z.enum(['Green', 'Yellow', 'Orange', 'Red']).default('Yellow'),
   })
@@ -121,18 +133,37 @@ const RiskRule = z
     match: RiskRuleMatch,
     action: RiskAction,
     severity: RiskSeverity,
+    applies_to: z.enum(['source', 'chunk', 'claim']).optional(),
   })
   .strict();
+
+/** A risk category may be a bare id or a self-documenting record. */
+const RiskCategory = z.union([
+  z.string(),
+  z
+    .object({
+      id: z.string().min(1),
+      name: z.string().optional(),
+      description: z.string().optional(),
+      severity: RiskSeverity.optional(),
+    })
+    .strict(),
+]);
+
+/** Extract the id of a category regardless of which form it was declared in. */
+export function riskCategoryId(category: z.infer<typeof RiskCategory>): string {
+  return typeof category === 'string' ? category : category.id;
+}
 
 /** risk_rules.yaml — risk categories and the rules that flag/block/downgrade content. */
 export const RiskRulesYaml = z
   .object({
-    categories: z.array(z.string()),
+    categories: z.array(RiskCategory),
     rules: z.array(RiskRule),
   })
   .strict()
   .superRefine((config, ctx) => {
-    const categories = new Set(config.categories);
+    const categories = new Set(config.categories.map(riskCategoryId));
     config.rules.forEach((rule, index) => {
       if (!categories.has(rule.category)) {
         ctx.addIssue({
@@ -174,6 +205,7 @@ const EvalQuestion = z
     question: z.string(),
     topics: z.array(z.string()),
     expects_citation: z.boolean(),
+    unsafe_if: z.string().optional(),
   })
   .strict();
 
@@ -181,6 +213,14 @@ const EvalQuestion = z
 export const EvalQuestionsYaml = z
   .object({
     questions: z.array(EvalQuestion),
+    thresholds: z
+      .object({
+        citation_coverage: z.number().min(0).max(1).optional(),
+        retrieval_precision: z.number().min(0).max(1).optional(),
+        unsafe_output_rate: z.number().min(0).max(1).optional(),
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 export type EvalQuestionsYaml = z.infer<typeof EvalQuestionsYaml>;

@@ -1,67 +1,50 @@
-risk_categories:
-  - id: unauthorized_legal_advice
-    name: Unauthorized Legal Advice
-    description: Content that delivers specific legal advice to an end client without attorney review.
-    severity: high
-  - id: overruled_precedent
-    name: Overruled Precedent
-    description: Content that cites a case or provision that has been overruled, vacated, or superseded.
-    severity: critical
-  - id: jurisdiction_mismatch
-    name: Jurisdiction Mismatch
-    description: Content applied outside the jurisdiction it is legally valid in.
-    severity: high
-  - id: privacy_violation
-    name: Privacy Violation
-    description: Disclosure of personal data or protected client information.
-    severity: high
-  - id: license_violation
-    name: License Violation
-    description: Legal-research content used in a way that exceeds its licensed or approved rights.
-    severity: high
+categories:
+  - unauthorized_legal_advice
+  - overruled_precedent
+  - jurisdiction_mismatch
+  - privacy_violation
+  - license_violation
 rules:
   - id: block-direct-client-advice-language
     category: unauthorized_legal_advice
     description: Block claims that instruct a specific reader on what legal action to take without an attorney-review qualifier.
-    keywords:
-      - you should sue
-      - you are entitled to
-      - file this claim
-      - you do not need a lawyer
-    applies_to: claim
+    match:
+      keywords:
+        - you should sue
+        - you are entitled to
+        - file this claim
+        - you do not need a lawyer
     action: block
     severity: high
   - id: flag-unverified-case-status
     category: overruled_precedent
     description: Flag any case citation whose current good-law status has not been verified against a citator.
-    keywords: []
-    applies_to: source
+    match: {}
     action: flag
-    severity: critical
+    severity: high
   - id: flag-cross-jurisdiction-citation
     category: jurisdiction_mismatch
     description: Flag chunks that cite authority from one jurisdiction as though it applied in another without qualification.
-    keywords:
-      - in this state
-      - applies nationwide
-      - in all jurisdictions
-    applies_to: chunk
+    match:
+      keywords:
+        - in this state
+        - applies nationwide
+        - in all jurisdictions
     action: flag
     severity: high
   - id: block-client-identifiers
     category: privacy_violation
     description: Block chunks containing identifiable client names, case numbers, or other direct client identifiers.
-    keywords:
-      - client name
-      - case number
-      - social security number
-    applies_to: chunk
+    match:
+      keywords:
+        - client name
+        - case number
+        - social security number
     action: block
     severity: high
   - id: flag-missing-license-review
     category: license_violation
     description: Flag any chunk sourced from a Yellow or Orange source that has not completed legal review.
-    keywords: []
-    applies_to: source
+    match: {}
     action: flag
     severity: high

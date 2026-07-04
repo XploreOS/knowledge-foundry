@@ -1,17 +1,17 @@
-stages:
+﻿stages:
   license_review:
     roles: [legal]
     required: true
-    min_approvals: 1
+    quorum: 1
   safety_review:
     roles: [information_security_sme, legal]
     required: true
-    min_approvals: 1
+    quorum: 1
   evidence_review:
     roles: [information_security_sme]
     required: true
-    min_approvals: 1
+    quorum: 1
   release_review:
     roles: [legal, information_security_sme, product_owner]
     required: true
-    min_approvals: 1
+    quorum: 1

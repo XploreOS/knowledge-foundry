@@ -1,40 +1,71 @@
 entity_types:
-  - pathway
-  - biomarker
-  - lab_test
-  - supplement
-  - medication
-  - clinic_service
-  - contraindication
-  - condition
-  - intervention
+  - id: pathway
+    name: Pathway
+    description: A biological or metabolic pathway referenced as a mechanism of action (e.g. HPA axis, methylation, insulin signaling).
+  - id: biomarker
+    name: Biomarker
+    description: A measurable clinical indicator, such as a lab value, hormone level, or inflammatory marker.
+  - id: lab_test
+    name: Lab Test
+    description: A specific laboratory or diagnostic test used to assess a biomarker, pathway, or condition.
+  - id: supplement
+    name: Supplement
+    description: A vitamin, mineral, herb, or nutraceutical referenced as an intervention.
+  - id: medication
+    name: Medication
+    description: A prescription or over-the-counter drug referenced in the content, including for interaction checks.
+  - id: clinic_service
+    name: Clinic Service
+    description: A billable or offered clinical service, such as a specialty lab panel, consult, or therapy program.
+  - id: contraindication
+    name: Contraindication
+    description: A documented reason a supplement, medication, or intervention should be avoided for a given patient or condition.
+  - id: condition
+    name: Condition
+    description: A diagnosable condition or root-cause imbalance addressed by functional medicine practice.
+  - id: intervention
+    name: Intervention
+    description: A clinical, nutritional, or lifestyle intervention, such as a dietary protocol or exercise prescription.
 chunk_types:
-  - guideline_recommendation
-  - biomarker_card
-  - protocol
-  - research_finding
-  - faq
+  - id: guideline_recommendation
+    name: Guideline Recommendation
+    description: A chunk stating a specific recommendation drawn from an authoritative guideline or fact sheet.
+  - id: biomarker_card
+    name: Biomarker Card
+    description: A condensed reference card describing a biomarker's normal range, optimal range, and clinical significance.
+  - id: protocol
+    name: Protocol
+    description: A chunk describing a stepwise clinical or longevity protocol.
+  - id: research_finding
+    name: Research Finding
+    description: A chunk summarizing a specific study, trial, or research finding and its evidence level.
+  - id: faq
+    name: FAQ Entry
+    description: A single clinical question-and-answer pair.
+audiences:
+  - clinician
+  - patient
+  - researcher
 metadata_fields:
-  evidence_level:
-    - A
-    - B
-    - C
-    - D
-    - X
-  audience:
-    - clinician
-    - patient
-    - researcher
-  population:
-    - adult
-    - pediatric
-    - pregnancy
-    - geriatric
-    - general
-  topic_area:
-    - cardiometabolic
-    - inflammation
-    - sleep
-    - nutrition
-    - hormones
-    - recovery
+  - id: evidence_level
+    description: The evidence grade supporting this content; must be one of the keys declared in evidence_model.yaml (A, B, C, D, X).
+    required: true
+  - id: audience
+    description: Who the content is written for; must be one of the declared audiences (clinician, patient, researcher).
+    required: true
+  - id: population
+    description: The patient population the content applies to (e.g. adult, pediatric, pregnancy, geriatric, general).
+    required: false
+  - id: topic_area
+    description: The functional-medicine focus area (cardiometabolic, inflammation, sleep, nutrition, hormones, recovery).
+    required: false
+  - id: last_reviewed
+    description: ISO date the content was last reviewed by a clinical SME.
+    required: false
+topics:
+  - cardiometabolic
+  - inflammation
+  - sleep
+  - nutrition
+  - hormones
+  - recovery

@@ -1,7 +1,6 @@
-license_classes:
+﻿license_classes:
   Green:
     description: Company-authored, approved-for-broad-internal-use policies and documentation.
-    ingestable: true
     requires_review: false
     default_allowed_uses:
       internal_search: true
@@ -13,7 +12,6 @@ license_classes:
       commercial_distribution: false
   Yellow:
     description: Draft or team-level documentation not yet formally approved for company-wide use; requires review.
-    ingestable: false
     requires_review: true
     default_allowed_uses:
       internal_search: true
@@ -25,7 +23,6 @@ license_classes:
       commercial_distribution: false
   Orange:
     description: Third-party vendor documentation or contractual material requiring legal or procurement approval before ingestion.
-    ingestable: false
     requires_review: true
     default_allowed_uses:
       internal_search: false
@@ -37,7 +34,6 @@ license_classes:
       commercial_distribution: false
   Red:
     description: Confidential, restricted, or legally privileged material explicitly prohibited from this corpus.
-    ingestable: false
     requires_review: false
     default_allowed_uses:
       internal_search: false

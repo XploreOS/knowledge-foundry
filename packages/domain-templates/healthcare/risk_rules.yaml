@@ -1,73 +1,57 @@
-risk_categories:
-  - id: contraindication
-    name: Contraindication
-    description: Content that omits or misstates a known medication, condition, or intervention contraindication.
-    severity: critical
-  - id: dosage_risk
-    name: Dosage Risk
-    description: Content that recommends or implies a dosage without adequate safety qualification.
-    severity: high
-  - id: unsupported_medical_advice
-    name: Unsupported Medical Advice
-    description: A statement that oversteps professional scope, e.g. a diagnosis or treatment plan without clinician review.
-    severity: high
-  - id: phi_privacy_violation
-    name: PHI Privacy Violation
-    description: Disclosure of protected health information (PHI) or other identifiable patient data.
-    severity: critical
-  - id: license_violation
-    name: License Violation
-    description: Clinical content used in a way that exceeds its licensed or approved rights.
-    severity: high
+categories:
+  - contraindication
+  - dosage_risk
+  - unsupported_medical_advice
+  - phi_privacy_violation
+  - license_violation
 rules:
   - id: flag-drug-interaction-mentions
     category: contraindication
     description: Flag chunks that mention a medication alongside interaction or contraindication language for manual verification.
-    keywords:
-      - contraindicated
-      - interacts with
-      - should not be combined with
-      - drug interaction
-    applies_to: chunk
+    match:
+      keywords:
+        - contraindicated
+        - interacts with
+        - should not be combined with
+        - drug interaction
     action: flag
-    severity: critical
+    severity: high
   - id: flag-specific-dosage-language
     category: dosage_risk
     description: Flag chunks that state a specific numeric dosage without a citation to an authoritative source.
-    keywords:
-      - mg/day
-      - mcg
-      - dosage
-      - "iu "
-    applies_to: chunk
+    match:
+      keywords:
+        - mg/day
+        - mcg
+        - dosage
+        - "iu "
     action: flag
     severity: high
   - id: block-diagnostic-directives
     category: unsupported_medical_advice
     description: Block content that directs a reader to self-diagnose or self-treat without clinician involvement.
-    keywords:
-      - you have
-      - self-diagnose
-      - you should take
-      - stop taking your medication
-    applies_to: claim
+    match:
+      keywords:
+        - you have
+        - self-diagnose
+        - you should take
+        - stop taking your medication
     action: block
     severity: high
   - id: block-patient-identifiers
     category: phi_privacy_violation
     description: Block chunks containing patient names, medical record numbers, or other direct identifiers.
-    keywords:
-      - medical record number
-      - patient name
-      - date of birth
-      - social security number
-    applies_to: chunk
+    match:
+      keywords:
+        - medical record number
+        - patient name
+        - date of birth
+        - social security number
     action: block
-    severity: critical
+    severity: high
   - id: flag-missing-license-review
     category: license_violation
     description: Flag any chunk sourced from a Yellow or Orange source that has not completed legal review.
-    keywords: []
-    applies_to: source
+    match: {}
     action: flag
     severity: high

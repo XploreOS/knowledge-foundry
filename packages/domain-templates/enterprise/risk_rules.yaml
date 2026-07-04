@@ -1,12 +1,12 @@
-risk_categories:
+categories:
   - id: confidential_leak
     name: Confidential Leak
     description: Content that could expose confidential or restricted company information outside its approved audience.
-    severity: critical
+    severity: high
   - id: pii_exposure
     name: PII Exposure
     description: Disclosure of employee or customer personally identifiable information.
-    severity: critical
+    severity: high
   - id: stale_policy
     name: Stale Policy
     description: A policy or procedure that has not been reviewed within its required cadence.
@@ -19,36 +19,40 @@ rules:
   - id: block-restricted-confidentiality-content
     category: confidential_leak
     description: Block chunks sourced from content classified above the confidentiality level this corpus is approved to hold.
-    keywords:
-      - confidential
-      - restricted distribution
-      - do not share externally
-      - internal use only
+    match:
+      keywords:
+        - confidential
+        - restricted distribution
+        - do not share externally
+        - internal use only
     applies_to: source
     action: block
-    severity: critical
+    severity: high
   - id: block-employee-identifiers
     category: pii_exposure
     description: Block chunks containing employee names paired with sensitive data such as salary, SSN, or home address.
-    keywords:
-      - social security number
-      - home address
-      - salary
-      - date of birth
+    match:
+      keywords:
+        - social security number
+        - home address
+        - salary
+        - date of birth
     applies_to: chunk
     action: block
-    severity: critical
+    severity: high
   - id: flag-past-review-date
     category: stale_policy
     description: Flag policies whose last_reviewed metadata is older than the domain's required review cadence.
-    keywords: []
+    match:
+      keywords: []
     applies_to: source
     action: flag
     severity: low
   - id: flag-missing-license-review
     category: license_violation
     description: Flag any chunk sourced from a Yellow or Orange source that has not completed legal review.
-    keywords: []
+    match:
+      keywords: []
     applies_to: source
     action: flag
     severity: high

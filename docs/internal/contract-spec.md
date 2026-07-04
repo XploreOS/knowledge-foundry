@@ -205,7 +205,8 @@ license_classes:                 # describe each of Green/Yellow/Orange/Red
   Yellow: {...}
   Orange: {...}
   Red: {...}
-blockers: string[]               # source descriptors that force Red (e.g. "paywalled course")
+blockers:                        # descriptors that force Red / flag; strings or records
+  - string | {id: string, description: string, applies_to?: string, action?: block|flag}
 source_types?: string[]          # optional: allowed source types for this domain
 uncertain_defaults_to: "Yellow"  # more restrictive default rule (Green|Yellow|Orange|Red)
 ```
@@ -223,15 +224,18 @@ default_level?: string           # optional; must be one of the evidence_levels 
 
 ### risk_rules.yaml
 ```
-categories: string[]             # e.g. contraindication, privacy_violation, license_violation, unsupported_advice
+categories:                      # bare id strings OR self-documenting records
+  - string | {id: string, name?: string, description?: string, severity?: low|medium|high}
 rules:
   - id: string
-    category: string             # must be in categories
+    category: string             # must match a category id
     description: string
     match: { keywords?: string[], evidence_levels?: string[], metadata?: object }
     action: flag|block|downgrade
-    severity: low|medium|high
+    severity: low|medium|high    # "critical" is NOT valid — use high (gates block on high)
+    applies_to?: source|chunk|claim
 ```
+Helper `riskCategoryId(cat)` in schemas normalizes either category form to its id.
 
 ### review_workflow.yaml
 ```
@@ -249,6 +253,11 @@ questions:
     question: string
     topics: string[]
     expects_citation: boolean
+    unsafe_if?: string           # optional description of what makes an answer unsafe
+thresholds?:                     # optional pass thresholds consumed by eval-rag
+  citation_coverage?: number     # 0..1
+  retrieval_precision?: number
+  unsafe_output_rate?: number
 ```
 
 ## 4. Deterministic gates (`packages/core/src/gates/`) — pure functions, code-only
