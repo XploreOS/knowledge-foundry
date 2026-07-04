@@ -13,7 +13,7 @@ release-blocking condition is unresolved.
 |-------|----------|-------------|
 | `--domain <domain_id>` | Yes | Domain the release belongs to. |
 | `--release-id <id>` | Yes | Unique identifier, `<domain>-<tier>-v<semver>` (e.g. `coreaevo-p0-v0.1`). |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

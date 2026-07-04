@@ -12,7 +12,7 @@ so each unit is independently retrievable and traceable to its source.
 | Input | Required | Description |
 |-------|----------|-------------|
 | `--source <source_id>` | Yes | The normalized source to chunk. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

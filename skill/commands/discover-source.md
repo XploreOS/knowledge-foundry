@@ -15,7 +15,7 @@ downstream exists until a candidate is on record.
 | `--topic <topic>` | Yes | Subject area to search for (e.g. "insulin resistance guideline", "employment law jurisdiction conflicts"). |
 | `--source-type <type>` | No | Restrict to a content type (guideline, regulation, research article, dataset, API, internal document). |
 | `--max-candidates <n>` | No | Cap on number of candidate records produced. Defaults to a conservative value to avoid flooding the registry. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

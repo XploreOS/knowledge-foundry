@@ -66,4 +66,4 @@ Eight files, each validated against the zod schemas in
    yes/no answer to a jurisdiction-dependent legal question.
 
 9. Validate before ingesting any real content (e.g.
-   `kf init-domain --validate domains/<your-domain>`).
+   `kf validate-domain <your-domain>`).

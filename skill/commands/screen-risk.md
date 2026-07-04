@@ -13,7 +13,7 @@ breaches — and route the flags for expert review.
 |-------|----------|-------------|
 | `--source <source_id>` | Yes | Source whose chunks/claims should be screened. |
 | `--domain <domain_id>` | Yes | Domain configuration supplying the risk rules. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

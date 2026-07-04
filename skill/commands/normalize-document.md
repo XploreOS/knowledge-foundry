@@ -12,7 +12,7 @@ clean, structurally faithful input.
 | Input | Required | Description |
 |-------|----------|-------------|
 | `--source <source_id>` | Yes | The ingested source to normalize. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

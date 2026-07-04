@@ -64,4 +64,4 @@ Eight files, each validated against the zod schemas in
    direct buy/sell recommendation.
 
 9. Validate before ingesting any real content (e.g.
-   `kf init-domain --validate domains/<your-domain>`).
+   `kf validate-domain <your-domain>`).

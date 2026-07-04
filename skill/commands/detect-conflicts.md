@@ -13,7 +13,7 @@ inconsistent guidance ship silently in the same corpus.
 |-------|----------|-------------|
 | `--domain <domain_id>` | Yes | Domain configuration and scope for comparison. |
 | `--topic <topic>` | No | Restrict comparison to a specific topic; omit to scan all tagged topics in the domain. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

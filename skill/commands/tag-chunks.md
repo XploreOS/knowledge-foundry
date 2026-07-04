@@ -13,7 +13,7 @@ rather than raw text alone.
 |-------|----------|-------------|
 | `--source <source_id>` | Yes | Source whose chunks should be tagged. |
 | `--domain <domain_id>` | Yes | Domain configuration supplying the taxonomy and evidence model. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

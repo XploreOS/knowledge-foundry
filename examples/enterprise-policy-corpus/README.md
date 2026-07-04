@@ -9,7 +9,7 @@ building a domain configuration from scratch.
 ```sh
 # 1. Copy the enterprise template and adapt it for company policies
 cp -r packages/domain-templates/enterprise domains/company-policies
-kf init-domain --validate domains/company-policies
+kf validate-domain company-policies
 
 # 2. Register sources: an HR policy, an IT security procedure, and a
 #    vendor-provided tool guide

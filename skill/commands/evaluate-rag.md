@@ -13,7 +13,7 @@ before it is approved.
 |-------|----------|-------------|
 | `--release-id <id>` | Yes | The release to evaluate. |
 | `--domain <domain_id>` | Yes | Domain configuration supplying the evaluation question set. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

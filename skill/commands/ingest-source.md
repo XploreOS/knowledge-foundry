@@ -11,7 +11,7 @@ every later transformation traces back to an unaltered original.
 | Input | Required | Description |
 |-------|----------|-------------|
 | `--source <source_id>` | Yes | The approved source to ingest. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

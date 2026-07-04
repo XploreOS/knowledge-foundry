@@ -27,7 +27,7 @@ reviewer. This agent flags; it never resolves.
 `data/risk/<source_id>/risk.jsonl` — one risk record per match:
 `risk_id (source_id-risk-seq), source_id, chunk_id, risk_type
 (matches a risk_rules.yaml category), severity
-(low|medium|high|critical), description, status (open)`.
+(low|medium|high), description, resolved (false)`.
 
 ## Allowed actions
 
@@ -42,7 +42,7 @@ reviewer. This agent flags; it never resolves.
 
 ## Prohibited actions
 
-- Never set `status` to anything other than `open` — resolution
+- Never set `resolved` to anything other than `false` — resolution
   (`resolved`, `accepted`, `rejected`) is written only by a human
   reviewer.
 - Never downgrade a rule's declared severity to avoid triggering review.
@@ -68,15 +68,15 @@ data/risk/{{source_id}}/risk.jsonl.
 - [ ] Every `risk_id` is unique.
 - [ ] Every `risk_type` is present in the domain's declared risk
       categories.
-- [ ] `severity` is exactly `low`, `medium`, `high`, or `critical`.
+- [ ] `severity` is exactly `low`, `medium`, or `high`.
 - [ ] Every new flag has `status = open`.
 
 ## Escalation rules
 
-- **`severity = high` or `critical`** — routes automatically to the
+- **`severity = high`** — routes automatically to the
   subject-matter expert (or compliance/legal, depending on `risk_type`)
   per `domains/<domain_id>/review_workflow.yaml`. The release gate blocks
-  any release containing an unresolved `high`/`critical` flag.
+  any release containing an unresolved `high` flag.
 - **No existing rule covers an obviously risky pattern** — note the gap
   and recommend a new rule to the domain owner; do not invent a rule ad
   hoc mid-screening.

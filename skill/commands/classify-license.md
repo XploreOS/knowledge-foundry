@@ -13,7 +13,7 @@ rest of the pipeline can trust.
 |-------|----------|-------------|
 | `--source <source_id>` | Yes | The candidate source to classify. |
 | `--domain <domain_id>` | Yes | Domain, for `source_policy.yaml` rules on blocked source types/licenses. |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 
 ## Preconditions
 

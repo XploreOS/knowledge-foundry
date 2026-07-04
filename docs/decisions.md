@@ -54,9 +54,10 @@ Each decision lists the choice, alternatives considered, and rationale.
 ## ADR-010 — Release artifact format
 
 **Decision:** A release is a directory `releases/<domain_id>/<release_id>/` containing:
-- `manifest.json` — machine-readable `ReleaseManifest` (sources, license class counts, evidence summary, gate results, state, checksums of member files)
+- `manifest.json` — machine-readable `ReleaseManifest` (sources, license class counts, evidence summary, gate results, state, checksums of member files, and the embedded `evaluation` result once `kf eval-rag` has run)
 - `approved_chunks.jsonl` — chunks that passed all gates and reviews
-- `evaluation.json` — RAG evaluation results (written by `kf eval-rag`)
+
+The canonical `EvaluationResult` file lives at `evals/<release_id>/results.json`; the manifest embeds a copy rather than duplicating a third file inside the release directory.
 Release states: `draft → blocked | approved → indexed → deprecated`. The directory is treated as immutable once state leaves `draft`; corrections require a new release_id.
 **Rationale:** Directory-of-files matches local-first storage, is trivially indexable by any RAG stack, and the manifest satisfies the machine-readable requirement. Zip/tarball export deferred past v0.1.
 

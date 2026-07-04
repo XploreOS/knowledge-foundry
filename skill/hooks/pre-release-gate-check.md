@@ -15,8 +15,7 @@ following holds:
 1. Any member source is Red.
 2. Any Yellow/Orange member source lacks `review_state =
    approved_for_ingestion`.
-3. Any member chunk carries an unresolved risk flag of severity `high` or
-   `critical`.
+3. Any member chunk carries an unresolved risk flag of severity `high`.
 4. Any member chunk has an empty or missing citation.
 5. The release's intended use is not permitted by every member source's
    `allowed_uses` (a license error).
@@ -42,7 +41,7 @@ following holds:
 
 - **Red or unapproved Yellow/Orange source** — do not include it; if it
   must be part of the release, resolve licensing/approval first.
-- **Unresolved high/critical risk flag** — route to the appropriate human
+- **Unresolved high-severity risk flag** — route to the appropriate human
   reviewer for resolution before rebuilding the release.
 - **Missing citation** — return to chunking/tagging to resolve the
   citation for the affected chunk.

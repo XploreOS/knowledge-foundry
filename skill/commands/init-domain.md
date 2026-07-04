@@ -13,7 +13,7 @@ not been initialized and validated.
 | Input | Required | Description |
 |-------|----------|-------------|
 | `--domain <domain_id>` | Yes | Slug identifier for the new domain (e.g. `legal-employment`, `functional-medicine`). |
-| `--workspace <path>` | No | Workspace root; defaults to current working directory. |
+| `--root <path>` | No | Workspace root; defaults to current working directory. |
 | Domain description / scope | Yes (interactive or supplied) | High-level description, primary use cases, and prohibited use cases to seed `domain.yaml`. |
 | Review roles | Yes (interactive or supplied) | Who must approve what (legal, SME, product owner) to seed `review_workflow.yaml`. |
 

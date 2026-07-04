@@ -9,7 +9,7 @@ configuration from scratch.
 ```sh
 # 1. Copy the legal template and adapt it for employment law specifically
 cp -r packages/domain-templates/legal domains/employment-law
-kf init-domain --validate domains/employment-law
+kf validate-domain employment-law
 
 # 2. Register a handful of sources: a state labor code, a federal reg,
 #    and an internal HR playbook

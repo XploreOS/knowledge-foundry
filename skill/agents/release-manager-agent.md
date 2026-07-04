@@ -41,7 +41,7 @@ entirely to the release gate for whether the result is approvable.
 ## Prohibited actions
 
 - Never include a chunk that is Red-sourced, missing a citation, carries
-  an unresolved high/critical risk flag, or has `allowed_uses`
+  an unresolved high-severity risk flag, or has `allowed_uses`
   inconsistent with the release's intended use.
 - Never set the release `state` to `approved` — that is set by
   `kf validate-release` only after human release review, never by this
@@ -64,7 +64,7 @@ why.
 ## Validation checklist
 
 - [ ] Every chunk in `approved_chunks.jsonl` has a citation.
-- [ ] No member chunk carries an unresolved `high`/`critical` risk flag.
+- [ ] No member chunk carries an unresolved `high` risk flag.
 - [ ] Every member chunk's `allowed_uses` is consistent with its source's
       `license_class` for the release's intended use.
 - [ ] `fine_tuning` is only set if every member source has explicit

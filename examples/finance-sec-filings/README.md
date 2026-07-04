@@ -9,7 +9,7 @@ domain configuration from scratch.
 ```sh
 # 1. Copy the finance template and adapt it for filings research
 cp -r packages/domain-templates/finance domains/sec-filings
-kf init-domain --validate domains/sec-filings
+kf validate-domain sec-filings
 
 # 2. Register sources: a 10-K, a 10-Q, and an analyst research note
 kf create-source --domain sec-filings --type filing --title "Acme Corp 10-K FY2025"
