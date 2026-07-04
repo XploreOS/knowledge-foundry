@@ -1,0 +1,58 @@
+entity_types:
+  - id: condition
+    name: Condition
+    description: A diagnosable medical condition or disease state.
+  - id: biomarker
+    name: Biomarker
+    description: A measurable clinical indicator, such as a lab value or vital sign.
+  - id: lab_test
+    name: Lab Test
+    description: A specific laboratory or diagnostic test used to assess a condition or biomarker.
+  - id: intervention
+    name: Intervention
+    description: A clinical procedure, therapy, or lifestyle intervention.
+  - id: medication
+    name: Medication
+    description: A prescription or over-the-counter drug referenced in the content.
+  - id: contraindication
+    name: Contraindication
+    description: A documented reason a medication or intervention should be avoided for a given patient or condition.
+chunk_types:
+  - id: document
+    name: Document
+    description: A full source document treated as a single retrievable unit.
+  - id: section
+    name: Section
+    description: A titled subsection of a longer clinical document.
+  - id: protocol
+    name: Protocol
+    description: A chunk describing a stepwise clinical protocol or care pathway.
+  - id: clinical_summary
+    name: Clinical Summary
+    description: A condensed summary of clinical evidence for a condition, biomarker, or intervention.
+  - id: faq
+    name: FAQ Entry
+    description: A single clinical question-and-answer pair.
+audiences:
+  - clinician
+  - care_team
+  - internal_clinical_research
+metadata_fields:
+  - id: evidence_level
+    description: The evidence grade (per evidence_model.yaml) supporting this content.
+    required: true
+  - id: population
+    description: The patient population the content applies to (e.g. adult, pediatric, pregnancy).
+    required: false
+  - id: condition_context
+    description: The condition(s) this content is clinically relevant to.
+    required: false
+  - id: last_reviewed
+    description: ISO date the content was last reviewed by a clinical SME.
+    required: true
+topics:
+  - cardiometabolic
+  - infectious_disease
+  - medication_safety
+  - diagnostics
+  - preventive_care

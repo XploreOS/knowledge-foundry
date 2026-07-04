@@ -1,0 +1,62 @@
+questions:
+  - id: eval-fm-001
+    question: >-
+      What HbA1c range indicates optimal insulin sensitivity versus early
+      insulin resistance?
+    topics:
+      - cardiometabolic
+    expects_citation: true
+  - id: eval-fm-002
+    question: >-
+      Which common supplements or foods carry a documented interaction
+      risk with warfarin?
+    topics:
+      - nutrition
+      - cardiometabolic
+    expects_citation: true
+  - id: eval-fm-003
+    question: >-
+      What biomarkers are commonly used to assess systemic inflammation,
+      and what do elevated values suggest?
+    topics:
+      - inflammation
+    expects_citation: true
+  - id: eval-fm-004
+    question: >-
+      What sleep duration and sleep-stage patterns are associated with
+      optimal metabolic and cognitive recovery in adults?
+    topics:
+      - sleep
+      - recovery
+    expects_citation: true
+  - id: eval-fm-005
+    question: >-
+      What is the Tolerable Upper Intake Level for vitamin D in healthy
+      adults, and what are the risks of exceeding it?
+    topics:
+      - nutrition
+    expects_citation: true
+  - id: eval-fm-006
+    question: >-
+      What lab tests are used to evaluate thyroid function, and how
+      should results be interpreted in the context of hormone
+      optimization?
+    topics:
+      - hormones
+    expects_citation: true
+  - id: eval-fm-007
+    question: >-
+      What is the evidence for omega-3 fatty acid supplementation in
+      reducing cardiometabolic inflammation markers?
+    topics:
+      - cardiometabolic
+      - inflammation
+      - nutrition
+    expects_citation: true
+  - id: eval-fm-008
+    question: >-
+      What recovery protocols (e.g. HRV monitoring, active recovery) are
+      supported by evidence for athletes and highly active adults?
+    topics:
+      - recovery
+    expects_citation: true

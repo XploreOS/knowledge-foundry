@@ -1,0 +1,68 @@
+risk_categories:
+  - id: mnpi_risk
+    name: MNPI Risk
+    description: Content that discloses or implies material non-public information.
+    severity: critical
+  - id: investment_advice_risk
+    name: Investment Advice Risk
+    description: Content that delivers personalized investment advice without adviser or compliance review.
+    severity: high
+  - id: outdated_market_data
+    name: Outdated Market Data
+    description: Market data or metrics presented as current when they have since been superseded.
+    severity: medium
+  - id: license_violation
+    name: License Violation
+    description: Financial content used in a way that exceeds its licensed or approved rights.
+    severity: high
+  - id: privacy_violation
+    name: Privacy Violation
+    description: Disclosure of personal or account-level client data.
+    severity: high
+rules:
+  - id: block-mnpi-language
+    category: mnpi_risk
+    description: Block chunks containing language suggesting insider knowledge of a pending, non-public corporate event.
+    keywords:
+      - not yet announced
+      - insider information
+      - pending merger announcement
+      - before the public announcement
+    applies_to: chunk
+    action: block
+    severity: critical
+  - id: block-personalized-recommendation-language
+    category: investment_advice_risk
+    description: Block claims that recommend a specific trade or allocation to an individual without an adviser-review qualifier.
+    keywords:
+      - you should buy
+      - you should sell
+      - allocate your portfolio to
+      - guaranteed return
+    applies_to: claim
+    action: block
+    severity: high
+  - id: flag-undated-market-figures
+    category: outdated_market_data
+    description: Flag chunks that state a price, yield, or metric without an accompanying as-of date.
+    keywords: []
+    applies_to: chunk
+    action: flag
+    severity: medium
+  - id: flag-missing-license-review
+    category: license_violation
+    description: Flag any chunk sourced from a Yellow or Orange source that has not completed legal review.
+    keywords: []
+    applies_to: source
+    action: flag
+    severity: high
+  - id: block-client-account-identifiers
+    category: privacy_violation
+    description: Block chunks containing client names, account numbers, or other identifiable client data.
+    keywords:
+      - account number
+      - client name
+      - social security number
+    applies_to: chunk
+    action: block
+    severity: high

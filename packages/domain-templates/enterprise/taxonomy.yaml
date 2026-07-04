@@ -1,0 +1,52 @@
+entity_types:
+  - id: policy
+    name: Policy
+    description: A formal, approved company policy.
+  - id: procedure
+    name: Procedure
+    description: A documented step-by-step operational procedure.
+  - id: system
+    name: System
+    description: An internal software system, tool, or platform referenced in the content.
+  - id: team
+    name: Team
+    description: An organizational team or department referenced as an owner or contact.
+  - id: glossary_term
+    name: Glossary Term
+    description: An internal acronym, abbreviation, or term with a company-specific meaning.
+chunk_types:
+  - id: document
+    name: Document
+    description: A full source document treated as a single retrievable unit.
+  - id: section
+    name: Section
+    description: A titled subsection of a longer internal document.
+  - id: procedure
+    name: Procedure
+    description: A chunk describing an ordered set of steps to complete an internal task.
+  - id: glossary_entry
+    name: Glossary Entry
+    description: A single glossary term and its definition.
+  - id: faq
+    name: FAQ Entry
+    description: A single internal question-and-answer pair.
+audiences:
+  - employee
+  - manager
+  - contractor
+metadata_fields:
+  - id: owner_team
+    description: The team accountable for keeping this content current.
+    required: true
+  - id: last_reviewed
+    description: ISO date the content was last reviewed for accuracy.
+    required: true
+  - id: confidentiality_level
+    description: The internal confidentiality classification of this content (e.g. public, internal, confidential, restricted).
+    required: true
+topics:
+  - hr_policies
+  - it_and_security
+  - finance_operations
+  - facilities
+  - onboarding

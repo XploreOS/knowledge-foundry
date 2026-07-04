@@ -1,0 +1,54 @@
+risk_categories:
+  - id: confidential_leak
+    name: Confidential Leak
+    description: Content that could expose confidential or restricted company information outside its approved audience.
+    severity: critical
+  - id: pii_exposure
+    name: PII Exposure
+    description: Disclosure of employee or customer personally identifiable information.
+    severity: critical
+  - id: stale_policy
+    name: Stale Policy
+    description: A policy or procedure that has not been reviewed within its required cadence.
+    severity: low
+  - id: license_violation
+    name: License Violation
+    description: Vendor or third-party content used in a way that exceeds its licensed or approved rights.
+    severity: high
+rules:
+  - id: block-restricted-confidentiality-content
+    category: confidential_leak
+    description: Block chunks sourced from content classified above the confidentiality level this corpus is approved to hold.
+    keywords:
+      - confidential
+      - restricted distribution
+      - do not share externally
+      - internal use only
+    applies_to: source
+    action: block
+    severity: critical
+  - id: block-employee-identifiers
+    category: pii_exposure
+    description: Block chunks containing employee names paired with sensitive data such as salary, SSN, or home address.
+    keywords:
+      - social security number
+      - home address
+      - salary
+      - date of birth
+    applies_to: chunk
+    action: block
+    severity: critical
+  - id: flag-past-review-date
+    category: stale_policy
+    description: Flag policies whose last_reviewed metadata is older than the domain's required review cadence.
+    keywords: []
+    applies_to: source
+    action: flag
+    severity: low
+  - id: flag-missing-license-review
+    category: license_violation
+    description: Flag any chunk sourced from a Yellow or Orange source that has not completed legal review.
+    keywords: []
+    applies_to: source
+    action: flag
+    severity: high

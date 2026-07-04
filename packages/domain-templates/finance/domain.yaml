@@ -1,0 +1,22 @@
+domain_id: finance-template
+display_name: Finance Domain Template
+description: >-
+  A generic starting point for financial-research and compliance domains:
+  instruments, metrics, filings, regulations, market events, and issuers.
+  Intended for analyst- and adviser-facing research support, not for
+  delivering personalized investment advice directly to end clients.
+version: "0.1.0"
+primary_use_cases:
+  - analyst-facing research and filings search
+  - internal investment research support
+  - retrieval-augmented summarization of filings and market commentary (with
+    mandatory adviser or compliance review before client-facing use)
+prohibited_use_cases:
+  - personalized investment advice delivered without adviser review
+  - trading recommendations issued without compliance review
+  - disclosure or use of material non-public information (MNPI)
+review_roles:
+  - legal
+  - compliance_sme
+  - product_owner
+default_release_use: rag

@@ -1,0 +1,63 @@
+license_classes:
+  Green:
+    description: >-
+      Public-domain or explicitly licensed clinical/nutrition guidance (e.g.
+      federal health agency fact sheets, open-access systematic reviews)
+      safe to ingest broadly.
+    default_allowed_uses:
+      internal_search: true
+      rag: true
+      extraction: true
+      summarization: true
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+    requires_review: false
+  Yellow:
+    description: >-
+      License or reuse terms are unclear (e.g. a journal article without a
+      confirmed open-access license, or a conference abstract); requires
+      legal review before any use beyond internal search.
+    default_allowed_uses:
+      internal_search: true
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+    requires_review: true
+  Orange:
+    description: >-
+      Commercial or proprietary functional-medicine content (paid
+      practitioner courses, vendor lab-interpretation guides) requiring
+      contract or licensing approval before ingestion.
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+    requires_review: true
+  Red:
+    description: >-
+      Prohibited content: proprietary certification course material used
+      without a license, paywalled practitioner training programs, or any
+      source containing identifiable patient data.
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+    requires_review: false
+blockers:
+  - proprietary functional-medicine certification course content used without a license
+  - paywalled practitioner training program materials
+  - source contains identifiable patient information (PHI)
+  - withdrawn or retracted clinical guidance
+uncertain_defaults_to: Yellow

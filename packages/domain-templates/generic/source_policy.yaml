@@ -1,0 +1,66 @@
+license_classes:
+  Green:
+    description: Public domain or explicitly licensed for reuse; safe to ingest and use broadly.
+    ingestable: true
+    requires_review: false
+    default_allowed_uses:
+      internal_search: true
+      rag: true
+      extraction: true
+      summarization: true
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Yellow:
+    description: License terms are unclear or reuse rights are uncertain; requires legal review before broader use.
+    ingestable: false
+    requires_review: true
+    default_allowed_uses:
+      internal_search: true
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Orange:
+    description: Commercial or proprietary content requiring contract approval before ingestion.
+    ingestable: false
+    requires_review: true
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Red:
+    description: Explicitly prohibited from ingestion or use under any circumstance.
+    ingestable: false
+    requires_review: false
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+blockers:
+  - id: no-redistribution-license
+    description: Source terms explicitly forbid redistribution outside the organization.
+    applies_to: source
+    action: block
+  - id: unverified-authorship
+    description: Source authorship or provenance could not be confirmed.
+    applies_to: source
+    action: flag
+source_types:
+  - guideline
+  - research_article
+  - regulation
+  - dataset
+  - api
+  - internal_document
+  - web_page

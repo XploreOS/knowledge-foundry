@@ -1,0 +1,26 @@
+domain_id: functional-medicine
+display_name: Functional & Longevity Medicine
+description: >-
+  Reference corpus for functional and longevity medicine: root-cause,
+  systems-based clinical practice spanning cardiometabolic health,
+  inflammation, sleep, nutrition, hormone optimization, and recovery.
+  Sources cover biomarker interpretation, lab test guidance, supplement and
+  nutrient evidence, and longevity-oriented protocols. Intended to support
+  licensed providers and internal clinical researchers -- not to replace
+  clinician judgment or to advise patients directly.
+version: "0.1.0"
+primary_use_cases:
+  - provider-facing retrieval-augmented reference search for functional and
+    longevity medicine practitioners
+  - internal clinical research support (protocol design, biomarker panel
+    review, literature synthesis)
+prohibited_use_cases:
+  - autonomous diagnosis of a patient
+  - personalized treatment recommendations delivered without clinician review
+  - dosing or supplementation advice given directly to consumers
+review_roles:
+  - legal
+  - clinical_sme
+  - cmo
+  - product_owner
+default_release_use: rag

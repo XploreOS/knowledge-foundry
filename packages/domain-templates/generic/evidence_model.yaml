@@ -1,0 +1,17 @@
+evidence_levels:
+  A:
+    name: authoritative
+    description: Major guideline, regulation, or audited primary source.
+  B:
+    name: high_quality_secondary
+    description: Systematic review, consensus statement, or audited analysis of primary sources.
+  C:
+    name: primary_observational
+    description: Direct observation, internal data, or a single primary source without independent validation.
+  D:
+    name: expert_opinion
+    description: Expert consensus, internal playbook, or informal protocol.
+  X:
+    name: restricted
+    description: Unsupported, unsafe, or prohibited for use as evidence.
+default_level: C

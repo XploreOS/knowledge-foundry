@@ -1,0 +1,69 @@
+license_classes:
+  Green:
+    description: Company-authored, approved-for-broad-internal-use policies and documentation.
+    ingestable: true
+    requires_review: false
+    default_allowed_uses:
+      internal_search: true
+      rag: true
+      extraction: true
+      summarization: true
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Yellow:
+    description: Draft or team-level documentation not yet formally approved for company-wide use; requires review.
+    ingestable: false
+    requires_review: true
+    default_allowed_uses:
+      internal_search: true
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Orange:
+    description: Third-party vendor documentation or contractual material requiring legal or procurement approval before ingestion.
+    ingestable: false
+    requires_review: true
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Red:
+    description: Confidential, restricted, or legally privileged material explicitly prohibited from this corpus.
+    ingestable: false
+    requires_review: false
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+blockers:
+  - id: restricted-confidentiality-level
+    description: Source is classified at a confidentiality level higher than this corpus is approved to hold.
+    applies_to: source
+    action: block
+  - id: unowned-documentation
+    description: Source has no identifiable owning team and cannot be kept current.
+    applies_to: source
+    action: flag
+  - id: expired-policy
+    description: Source is a policy document that has passed its stated review or expiration date.
+    applies_to: source
+    action: flag
+source_types:
+  - policy
+  - procedure
+  - internal_document
+  - system_documentation
+  - vendor_documentation
+  - faq_page

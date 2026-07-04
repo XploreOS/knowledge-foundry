@@ -1,0 +1,21 @@
+domain_id: enterprise-template
+display_name: Enterprise Policy Domain Template
+description: >-
+  A generic starting point for internal enterprise-knowledge domains:
+  policies, procedures, systems, teams, and glossary terms. Intended for
+  internal employee-facing search and support, not for external
+  distribution of confidential material.
+version: "0.1.0"
+primary_use_cases:
+  - employee-facing internal policy and procedure search
+  - internal support and onboarding assistance
+  - retrieval-augmented summarization of internal documentation
+prohibited_use_cases:
+  - sharing confidential or internal-only content externally
+  - using retrieved content to make binding HR or legal decisions without
+    corresponding human review
+review_roles:
+  - legal
+  - information_security_sme
+  - product_owner
+default_release_use: internal_search

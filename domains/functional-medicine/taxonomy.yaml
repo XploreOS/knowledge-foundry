@@ -1,0 +1,40 @@
+entity_types:
+  - pathway
+  - biomarker
+  - lab_test
+  - supplement
+  - medication
+  - clinic_service
+  - contraindication
+  - condition
+  - intervention
+chunk_types:
+  - guideline_recommendation
+  - biomarker_card
+  - protocol
+  - research_finding
+  - faq
+metadata_fields:
+  evidence_level:
+    - A
+    - B
+    - C
+    - D
+    - X
+  audience:
+    - clinician
+    - patient
+    - researcher
+  population:
+    - adult
+    - pediatric
+    - pregnancy
+    - geriatric
+    - general
+  topic_area:
+    - cardiometabolic
+    - inflammation
+    - sleep
+    - nutrition
+    - hormones
+    - recovery

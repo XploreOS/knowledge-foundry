@@ -1,0 +1,54 @@
+risk_categories:
+  - id: license_violation
+    name: License Violation
+    description: Content used in a way that exceeds its licensed or approved rights.
+    severity: high
+  - id: privacy_violation
+    name: Privacy Violation
+    description: Disclosure of personal or otherwise protected information.
+    severity: high
+  - id: unsupported_claim
+    name: Unsupported Claim
+    description: A statement presented as fact without adequate supporting evidence.
+    severity: medium
+  - id: outdated_content
+    name: Outdated Content
+    description: Content that has not been reviewed recently enough to be trusted as current.
+    severity: low
+rules:
+  - id: flag-missing-license-review
+    category: license_violation
+    description: Flag any chunk sourced from a Yellow or Orange source that has not completed legal review.
+    keywords: []
+    applies_to: source
+    action: flag
+    severity: high
+  - id: flag-personal-data-mentions
+    category: privacy_violation
+    description: Flag chunks that mention personal identifiers alongside sensitive context.
+    keywords:
+      - social security number
+      - date of birth
+      - home address
+      - personal email
+    applies_to: chunk
+    action: flag
+    severity: high
+  - id: block-unverified-superlative-claims
+    category: unsupported_claim
+    description: Block claims that use absolute or superlative language without a cited source.
+    keywords:
+      - guaranteed
+      - always works
+      - proven to eliminate
+      - "100% effective"
+    applies_to: claim
+    action: block
+    severity: medium
+  - id: downgrade-stale-content
+    category: outdated_content
+    description: Downgrade evidence level for content not reviewed within the domain's current review cycle.
+    keywords: []
+    applies_to: source
+    action: downgrade_evidence
+    severity: low

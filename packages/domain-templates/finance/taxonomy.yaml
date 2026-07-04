@@ -1,0 +1,58 @@
+entity_types:
+  - id: instrument
+    name: Instrument
+    description: A tradable financial instrument, such as an equity, bond, or derivative.
+  - id: metric
+    name: Metric
+    description: A quantitative financial or operating metric, such as revenue, EBITDA, or a ratio.
+  - id: filing
+    name: Filing
+    description: A regulatory filing, such as a 10-K, 10-Q, or prospectus.
+  - id: regulation
+    name: Regulation
+    description: A financial regulation or rule issued by a regulatory body.
+  - id: market_event
+    name: Market Event
+    description: A discrete market event, such as an earnings release, merger announcement, or rate decision.
+  - id: issuer
+    name: Issuer
+    description: The company, government, or entity that issues an instrument or files a disclosure.
+chunk_types:
+  - id: document
+    name: Document
+    description: A full source document treated as a single retrievable unit.
+  - id: section
+    name: Section
+    description: A titled subsection of a longer financial document.
+  - id: filing_excerpt
+    name: Filing Excerpt
+    description: A verbatim excerpt from a regulatory filing, such as a risk-factors section.
+  - id: market_commentary
+    name: Market Commentary
+    description: Analyst or internal commentary on a market event or instrument.
+  - id: faq
+    name: FAQ Entry
+    description: A single financial question-and-answer pair.
+audiences:
+  - analyst
+  - adviser
+  - internal_research
+metadata_fields:
+  - id: as_of_date
+    description: The date the data or commentary in this content was accurate as of.
+    required: true
+  - id: issuer_ticker
+    description: The ticker symbol of the issuer this content relates to, if applicable.
+    required: false
+  - id: jurisdiction
+    description: The regulatory jurisdiction this content applies to.
+    required: false
+  - id: last_reviewed
+    description: ISO date the content was last reviewed for currency.
+    required: true
+topics:
+  - equities
+  - fixed_income
+  - macro_economics
+  - regulatory_filings
+  - earnings

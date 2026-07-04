@@ -1,0 +1,51 @@
+entity_types:
+  - id: topic
+    name: Topic
+    description: A named subject area used to group related content.
+  - id: term
+    name: Defined Term
+    description: A word or phrase with a specific, documented meaning in this domain.
+  - id: procedure_step
+    name: Procedure Step
+    description: A single step within a multi-step procedure or process.
+  - id: resource
+    name: Resource
+    description: A reference to an external tool, document, or contact used to complete a task.
+  - id: role
+    name: Role
+    description: A named responsibility or job function referenced in the content.
+chunk_types:
+  - id: document
+    name: Document
+    description: A full source document treated as a single retrievable unit.
+  - id: section
+    name: Section
+    description: A titled subsection of a longer document.
+  - id: definition
+    name: Definition
+    description: A short chunk that defines a single term or concept.
+  - id: procedure
+    name: Procedure
+    description: A chunk describing an ordered set of steps to complete a task.
+  - id: faq
+    name: FAQ Entry
+    description: A single question-and-answer pair.
+audiences:
+  - internal_staff
+  - external_customers
+  - general_public
+metadata_fields:
+  - id: source_url
+    description: Canonical URL or file path the content was ingested from.
+    required: false
+  - id: last_reviewed
+    description: ISO date the content was last reviewed for accuracy.
+    required: true
+  - id: owner_team
+    description: The team accountable for keeping this content current.
+    required: false
+topics:
+  - onboarding
+  - policies
+  - product
+  - support

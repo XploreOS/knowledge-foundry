@@ -1,0 +1,17 @@
+evidence_levels:
+  A:
+    name: authoritative
+    description: Major clinical guideline, regulatory label, or audited registry data.
+  B:
+    name: high_quality_secondary
+    description: Systematic review, meta-analysis, or consensus statement from a recognized professional body.
+  C:
+    name: primary_observational
+    description: Cohort study, case report, randomized controlled trial, or internal clinical data.
+  D:
+    name: expert_opinion
+    description: Expert consensus, clinical playbook, or informal protocol without a formal evidence review.
+  X:
+    name: restricted
+    description: Unsupported, unsafe, withdrawn, or otherwise prohibited for use as clinical evidence.
+default_level: C

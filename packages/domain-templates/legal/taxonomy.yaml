@@ -1,0 +1,58 @@
+entity_types:
+  - id: jurisdiction
+    name: Jurisdiction
+    description: A governing legal authority, such as a country, state, or court system.
+  - id: statute
+    name: Statute
+    description: A codified law enacted by a legislature.
+  - id: regulation
+    name: Regulation
+    description: A rule issued by a regulatory or administrative body under statutory authority.
+  - id: case
+    name: Case
+    description: A judicial decision or opinion.
+  - id: legal_issue
+    name: Legal Issue
+    description: A named legal question or doctrine that content addresses.
+  - id: provision
+    name: Provision
+    description: A specific clause or section within a statute, regulation, or contract.
+chunk_types:
+  - id: document
+    name: Document
+    description: A full source document treated as a single retrievable unit.
+  - id: section
+    name: Section
+    description: A titled subsection of a longer legal document.
+  - id: holding_summary
+    name: Holding Summary
+    description: A condensed summary of a case's holding and reasoning.
+  - id: statute_excerpt
+    name: Statute Excerpt
+    description: A verbatim excerpt of a statute or regulation provision.
+  - id: faq
+    name: FAQ Entry
+    description: A single legal question-and-answer pair.
+audiences:
+  - attorney
+  - paralegal
+  - internal_business_team
+metadata_fields:
+  - id: jurisdiction_scope
+    description: The jurisdiction(s) this content is legally applicable to.
+    required: true
+  - id: effective_date
+    description: The date this statute, regulation, or provision took effect.
+    required: false
+  - id: superseded_by
+    description: Citation to any later authority that overrules or supersedes this content.
+    required: false
+  - id: last_reviewed
+    description: ISO date the content was last reviewed for currency.
+    required: true
+topics:
+  - contracts
+  - employment_law
+  - regulatory_compliance
+  - intellectual_property
+  - litigation

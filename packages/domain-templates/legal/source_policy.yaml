@@ -1,0 +1,69 @@
+license_classes:
+  Green:
+    description: Public-domain primary law (statutes, regulations, published case law) or explicitly licensed secondary sources.
+    ingestable: true
+    requires_review: false
+    default_allowed_uses:
+      internal_search: true
+      rag: true
+      extraction: true
+      summarization: true
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Yellow:
+    description: Reuse rights are unclear, such as a commercial legal-research summary without a confirmed license; requires legal review.
+    ingestable: false
+    requires_review: true
+    default_allowed_uses:
+      internal_search: true
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Orange:
+    description: Proprietary legal-research platform content requiring contract or subscription-terms approval before ingestion.
+    ingestable: false
+    requires_review: true
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Red:
+    description: Content under privilege, seal, or explicit reuse prohibition; cannot be ingested.
+    ingestable: false
+    requires_review: false
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+blockers:
+  - id: overruled-precedent
+    description: Source is a judicial decision that has been overruled, vacated, or otherwise superseded.
+    applies_to: source
+    action: block
+  - id: privileged-or-sealed-material
+    description: Source is subject to attorney-client privilege, work-product protection, or a court seal.
+    applies_to: source
+    action: block
+  - id: unconfirmed-jurisdiction-currency
+    description: Source's jurisdictional currency (whether it reflects the latest amendments) has not been confirmed.
+    applies_to: source
+    action: flag
+source_types:
+  - statute
+  - regulation
+  - case
+  - practitioner_commentary
+  - internal_document
+  - contract_template

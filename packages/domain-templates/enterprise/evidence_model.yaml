@@ -1,0 +1,17 @@
+evidence_levels:
+  official_policy:
+    name: official_policy
+    description: A formally approved, currently in-force company policy.
+  approved_guideline:
+    name: approved_guideline
+    description: A guideline or standard operating procedure approved by the owning team but not a formal policy.
+  team_doc:
+    name: team_doc
+    description: Working documentation maintained by a team without a formal approval process.
+  informal_note:
+    name: informal_note
+    description: An informal note, wiki page, or message-derived content without an identified owner.
+  restricted:
+    name: restricted
+    description: Expired, unowned, over-classified, or otherwise unsupported for use as internal guidance.
+default_level: team_doc

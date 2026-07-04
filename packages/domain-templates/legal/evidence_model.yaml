@@ -1,0 +1,17 @@
+evidence_levels:
+  binding_authority:
+    name: binding_authority
+    description: Statute, regulation, or case law that is binding in the relevant jurisdiction.
+  persuasive_authority:
+    name: persuasive_authority
+    description: Out-of-jurisdiction case law or non-binding regulatory guidance that a court may consider persuasive.
+  secondary_commentary:
+    name: secondary_commentary
+    description: Treatises, law review articles, or practitioner commentary analyzing primary law.
+  practitioner_note:
+    name: practitioner_note
+    description: Internal firm or team notes, playbooks, or informal practice guidance without independent review.
+  restricted:
+    name: restricted
+    description: Overruled, privileged, sealed, or otherwise unsupported for use as legal authority.
+default_level: secondary_commentary

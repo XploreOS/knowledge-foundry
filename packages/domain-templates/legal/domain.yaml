@@ -1,0 +1,21 @@
+domain_id: legal-template
+display_name: Legal Domain Template
+description: >-
+  A generic starting point for legal-research and compliance domains:
+  jurisdictions, statutes, regulations, case law, legal issues, and
+  provisions. Intended for attorney- and paralegal-facing research support,
+  not for delivering legal advice directly to end clients.
+version: "0.1.0"
+primary_use_cases:
+  - attorney-facing legal research and case-law search
+  - internal compliance and regulatory research
+  - retrieval-augmented drafting support (with mandatory attorney review)
+prohibited_use_cases:
+  - providing legal advice directly to end clients without attorney review
+  - autonomous filing or submission of legal documents
+  - citing overruled or superseded authority as current law
+review_roles:
+  - legal
+  - supervising_attorney
+  - product_owner
+default_release_use: rag

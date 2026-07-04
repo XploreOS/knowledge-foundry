@@ -1,0 +1,27 @@
+evidence_levels:
+  A:
+    name: authoritative
+    description: >-
+      Major clinical practice guideline, regulatory/agency fact sheet (e.g.
+      NIH, NAM), or audited registry data.
+  B:
+    name: systematic_review_or_consensus
+    description: >-
+      Systematic review, meta-analysis, or formal consensus statement from
+      a recognized professional or scientific body.
+  C:
+    name: primary_observational
+    description: >-
+      Cohort study, case-control study, randomized controlled trial, or
+      other primary clinical/observational research not yet incorporated
+      into a formal guideline.
+  D:
+    name: expert_protocol_or_opinion
+    description: >-
+      Expert consensus, clinical playbook, or informal functional-medicine
+      protocol without a formal evidence review.
+  X:
+    name: restricted
+    description: >-
+      Unsupported, unsafe, withdrawn, or otherwise prohibited for use as
+      clinical evidence.

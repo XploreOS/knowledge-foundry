@@ -1,0 +1,17 @@
+evidence_levels:
+  audited_filing:
+    name: audited_filing
+    description: Audited regulatory filing or financial statement, such as a 10-K or prospectus.
+  regulatory_guidance:
+    name: regulatory_guidance
+    description: Official guidance or rule issued by a financial regulator.
+  analyst_research:
+    name: analyst_research
+    description: Research produced by a licensed analyst, subject to firm review but not independently audited.
+  commentary:
+    name: commentary
+    description: Market commentary, news coverage, or internal notes without formal review.
+  restricted:
+    name: restricted
+    description: Unverified, containing suspected MNPI, or otherwise prohibited for use as financial evidence.
+default_level: analyst_research

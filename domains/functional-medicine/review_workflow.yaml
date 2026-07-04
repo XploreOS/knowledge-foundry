@@ -1,0 +1,24 @@
+stages:
+  license_review:
+    roles:
+      - legal
+    required: true
+    quorum: all
+  safety_review:
+    roles:
+      - clinical_sme
+      - cmo
+    required: true
+    quorum: all
+  evidence_review:
+    roles:
+      - clinical_sme
+    required: true
+    quorum: any
+  release_review:
+    roles:
+      - legal
+      - cmo
+      - product_owner
+    required: true
+    quorum: 2

@@ -1,0 +1,92 @@
+categories:
+  - contraindication
+  - privacy_violation
+  - license_violation
+  - unsupported_advice
+  - high_dose_nutrient
+rules:
+  - id: supplement-drug-interaction-warfarin
+    category: contraindication
+    description: >-
+      Flags content recommending vitamin K-rich supplements, fish oil, or
+      other agents with a known interaction risk alongside warfarin or
+      other anticoagulants without an accompanying interaction warning.
+    match:
+      keywords:
+        - warfarin
+        - "vitamin k"
+        - "fish oil"
+        - anticoagulant
+        - "omega-3"
+    action: flag
+    severity: high
+  - id: nutrient-above-tolerable-upper-intake-level
+    category: high_dose_nutrient
+    description: >-
+      Flags a specific nutrient dose that exceeds, or is not checked
+      against, the Tolerable Upper Intake Level (UL) for the stated
+      population.
+    match:
+      keywords:
+        - "upper intake level"
+        - "tolerable upper intake"
+        - "mg/day"
+        - "mcg/day"
+        - "iu/day"
+        - megadose
+    action: flag
+    severity: high
+  - id: hormone-therapy-without-supervision
+    category: unsupported_advice
+    description: >-
+      Blocks content that recommends initiating or adjusting hormone
+      therapy (e.g. thyroid, testosterone, estrogen/progesterone) without
+      explicit physician supervision.
+    match:
+      keywords:
+        - "hormone therapy"
+        - testosterone
+        - estrogen
+        - progesterone
+        - "thyroid replacement"
+        - "without a doctor"
+    action: block
+    severity: high
+  - id: off-label-drug-recommendation
+    category: unsupported_advice
+    description: >-
+      Flags content recommending a prescription medication for an
+      off-label use without citing supporting evidence and clinician
+      oversight.
+    match:
+      keywords:
+        - "off-label"
+        - "off label"
+    action: flag
+    severity: medium
+  - id: phi-disclosure
+    category: privacy_violation
+    description: >-
+      Blocks chunks that contain identifiable patient information such as
+      names, medical record numbers, or dates of birth tied to an
+      individual.
+    match:
+      keywords:
+        - "medical record number"
+        - "patient name"
+        - "date of birth"
+        - "social security number"
+    action: block
+    severity: high
+  - id: missing-license-review-flag
+    category: license_violation
+    description: >-
+      Flags any chunk whose source has not yet completed legal review
+      before it is used beyond internal search.
+    match:
+      keywords:
+        - "pending legal review"
+        - "unconfirmed license"
+        - "reuse terms unclear"
+    action: flag
+    severity: medium

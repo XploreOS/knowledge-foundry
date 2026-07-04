@@ -1,0 +1,21 @@
+domain_id: generic-template
+display_name: Generic Domain Template
+description: >-
+  A neutral, unopinionated starting point for building a Knowledge Foundry
+  domain configuration. Use this template when your subject matter does not
+  map cleanly onto the healthcare, legal, finance, or enterprise-policy
+  templates, or as a reference for the minimum shape every domain
+  configuration must have.
+version: "0.1.0"
+primary_use_cases:
+  - internal knowledge base search
+  - retrieval-augmented generation over approved internal documents
+  - summarization of long-form reference material
+prohibited_use_cases:
+  - autonomous decision-making without human review
+  - redistribution of ingested content outside the organization
+review_roles:
+  - legal
+  - domain_sme
+  - product_owner
+default_release_use: rag

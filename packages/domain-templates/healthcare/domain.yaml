@@ -1,0 +1,23 @@
+domain_id: healthcare-template
+display_name: Healthcare Domain Template
+description: >-
+  A generic starting point for clinical and health-information domains:
+  conditions, biomarkers, lab tests, interventions, medications, and their
+  contraindications. Intended as a general clinical reference corpus, not a
+  specialty protocol (e.g. functional medicine ships as its own separate
+  domain).
+version: "0.1.0"
+primary_use_cases:
+  - clinician-facing reference search
+  - internal clinical research support
+  - retrieval-augmented generation for care-team decision support (with
+    mandatory clinician review of outputs)
+prohibited_use_cases:
+  - autonomous diagnosis of a patient
+  - treatment recommendations delivered without clinician review
+  - patient-facing chat without a licensed clinician in the loop
+review_roles:
+  - legal
+  - clinical_sme
+  - product_owner
+default_release_use: rag
