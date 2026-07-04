@@ -110,7 +110,8 @@ missing data to keep moving.
 ## 4. File layout conventions
 
 All artefacts live under a workspace directory (defaults to the current
-working directory; override with `--workspace <path>`).
+working directory; override with `--root <path>` or the `KF_ROOT`
+environment variable).
 
 | Path | Contents |
 |------|----------|

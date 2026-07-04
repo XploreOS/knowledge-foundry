@@ -41,6 +41,15 @@ Maintained by the Fable 5 orchestrator. Newest entries at the bottom.
 
 1. `npm install` succeeds. 2. `npm test` succeeds. 3. `npm run build` succeeds. 4. `kf init-domain demo` creates a valid domain folder. 5. `kf validate-domain demo` validates it. 6. A toy source can be created and classified. 7. A Green source passes pre-ingest validation. 8. A Red source is blocked from ingestion. 9. A toy normalized document can be chunked. 10. A chunk missing citation fails validation. 11. A release manifest can be generated. 12. A release with unresolved high-risk flags is blocked. 13. The functional-medicine reference domain validates. 14. Skill files exist and are coherent. 15. Slash command files map to CLI commands. 16. Agent files include prompts and guardrails. 17. Documentation explains use and extension. 18. Project is handoff-ready without additional context.
 
-### 5. Initial architecture decisions
+### 5. Initial architecture decisions (see below)
+
+## 2026-07-04 — Wave A complete: schemas, skillset, templates, reference domain
+
+- **Schemas (A1)**: 12 zod schemas + shared enums frozen in `packages/core/src/schemas/`; `tsc` clean. A prior-session agent had left divergent schema files (object citations, split license enums); these were replaced wholesale with contract-spec-conformant versions.
+- **Skillset (A2)**: `skill/` complete — SKILL.md, CLAUDE.md, AGENTS.md, 12 commands, 11 agents, 4 hooks; all mandated sections present; `--workspace` → `--root` inconsistency fixed by orchestrator review.
+- **Templates (A3) + functional medicine (A4)**: all 5 templates and `domains/functional-medicine/` now pass `DomainConfig.safeParse` (ALL_VALID). Schema widened by orchestrator decision to adopt the richer template shapes: self-documenting `{id,name,description}` entity/chunk types, `audiences`/`topics`/`metadata_fields[]` in taxonomy, optional `source_types`, blocker records, risk-category records, per-rule `applies_to`, eval `thresholds` + `unsafe_if`, `evidence_model.default_level`. Conformance rules enforced the other way where safety demanded: `ingestable` key removed (ingestability derives from gates only), `severity: critical` mapped to `high` (gates block on `high`), `min_approvals` → `quorum`, `must_cite` → `expects_citation`.
+- **Incident**: session limit killed three subagents mid-flight; orchestrator finished the YAML conformance inline and re-verified. Model policy going forward per user: Sonnet for medium tasks, Opus for high-complexity (core, CLI, tests).
+
+### Architecture decisions reference
 
 Recorded as ADR-001 … ADR-014 in `docs/decisions.md`: npm workspaces; commander; zod; local-FS storage module; YAML domain configs; JSONL records / JSON manifests; Vitest; tsc builds; ESM + Node ≥ 20; directory-based release artifact with machine-readable manifest; deterministic code-only gates; markdown-defined skill commands/agents/hooks backed by CLI checks; zero domain strings in the engine; slug IDs + SHA-256-checksummed immutable raw artefacts.
