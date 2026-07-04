@@ -114,7 +114,7 @@ Before publishing (to npm, GitHub, or a future marketplace):
 
 - [ ] `npm install && npm run build && npm test` all pass from a clean
       checkout.
-- [ ] `kf init-domain demo && kf validate-domain --domain demo` succeeds
+- [ ] `kf init-domain demo && kf validate-domain demo` succeeds
       end-to-end (see [getting-started.md](getting-started.md)).
 - [ ] All seven `docs/*.md` files (this set) are present and cross-link
       correctly to `skill/` and to each other.

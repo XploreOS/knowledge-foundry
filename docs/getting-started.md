@@ -37,9 +37,9 @@ The root defaults to the current working directory. Override it two ways,
 both equivalent:
 
 ```bash
-kf validate-domain --domain demo --root /path/to/workspace
+kf validate-domain demo --root /path/to/workspace
 # or
-KF_ROOT=/path/to/workspace kf validate-domain --domain demo
+KF_ROOT=/path/to/workspace kf validate-domain demo
 ```
 
 `packages/core/src/storage/` owns all path construction from the root —
@@ -55,8 +55,8 @@ release. Run each command from your workspace root.
 ### 1. Scaffold and validate the domain
 
 ```bash
-kf init-domain --domain demo
-kf validate-domain --domain demo
+kf init-domain demo
+kf validate-domain demo
 ```
 
 **Artefacts:** `domains/demo/domain.yaml`, `taxonomy.yaml`,

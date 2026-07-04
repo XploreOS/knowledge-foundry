@@ -333,7 +333,7 @@ thresholds:
 
 ## Creating a new domain
 
-1. Scaffold: `kf init-domain --domain <your-domain>`, or copy a starter
+1. Scaffold: `kf init-domain <your-domain>`, or copy a starter
    template — `cp -r packages/domain-templates/generic domains/<your-domain>`
    (also available: `healthcare`, `legal`, `finance`, `enterprise`).
 2. Edit `domain.yaml` first — real `domain_id`, `display_name`,
@@ -357,7 +357,7 @@ thresholds:
 8. Write at least five real evaluation questions in `eval_questions.yaml`
    that exercise your corpus's key topics, and set `thresholds` if your
    domain needs stricter (or looser) gates than the defaults.
-9. Run `kf validate-domain --domain <your-domain>` before ingesting any
+9. Run `kf validate-domain <your-domain>` before ingesting any
    real sources. Fix the specific file the error names — do not guess at
    the others.
 
