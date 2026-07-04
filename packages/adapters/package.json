@@ -1,0 +1,25 @@
+{
+  "name": "@knowledge-foundry/adapters",
+  "version": "0.1.0",
+  "description": "Ingestion and format adapters for Knowledge Foundry: local filesystem, web, markdown, JSON, CSV, PDF.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@knowledge-foundry/core": "0.1.0"
+  }
+}

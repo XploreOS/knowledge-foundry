@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.tsbuildinfo
+coverage/
+
+# Generated corpus artefacts (commit these in downstream corpus repos, not in the toolkit repo)
+/data/
+/releases/
+/evals/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
+
+# Local Claude settings
+.claude/settings.local.json

@@ -1,0 +1,27 @@
+{
+  "name": "knowledge-foundry",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A standalone Claude Code skillset and TypeScript CLI for building governed, licensed, versioned, RAG-ready domain knowledge corpora.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/adapters",
+    "packages/cli",
+    "packages/domain-templates"
+  ],
+  "scripts": {
+    "build": "npm run build -w @knowledge-foundry/core && npm run build -w @knowledge-foundry/adapters && npm run build -w @knowledge-foundry/cli",
+    "test": "npm run build && vitest run",
+    "test:watch": "vitest",
+    "clean": "node -e \"for (const p of ['packages/core','packages/adapters','packages/cli']) require('fs').rmSync(p + '/dist', {recursive: true, force: true})\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

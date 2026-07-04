@@ -1,0 +1,26 @@
+{
+  "name": "@knowledge-foundry/core",
+  "version": "0.1.0",
+  "description": "Domain-agnostic core library for Knowledge Foundry: schemas, storage, gates, and corpus pipeline operations.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "yaml": "^2.6.0",
+    "zod": "^3.24.0"
+  }
+}

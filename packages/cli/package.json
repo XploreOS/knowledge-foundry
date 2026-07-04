@@ -1,0 +1,24 @@
+{
+  "name": "@knowledge-foundry/cli",
+  "version": "0.1.0",
+  "description": "kf — the Knowledge Foundry CLI for building governed, licensed, versioned, RAG-ready domain corpora.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "kf": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@knowledge-foundry/adapters": "0.1.0",
+    "@knowledge-foundry/core": "0.1.0",
+    "commander": "^13.0.0"
+  }
+}

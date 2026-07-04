@@ -1,0 +1,8 @@
+{
+  "name": "@knowledge-foundry/domain-templates",
+  "version": "0.1.0",
+  "description": "Starter domain configuration templates for Knowledge Foundry: generic, healthcare, legal, finance, enterprise.",
+  "type": "module",
+  "license": "MIT",
+  "files": ["generic", "healthcare", "legal", "finance", "enterprise"]
+}
