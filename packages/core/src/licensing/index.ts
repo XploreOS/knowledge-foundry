@@ -63,12 +63,18 @@ export function classifyLicense(
 
   const legalReviewRequired = classPolicy.requires_review;
 
-  // review_state: license_review when a human must sign off; otherwise the
-  // source is cleared for ingestion. approval_status is auto-granted ONLY for
-  // a Green class that needs no review.
-  const reviewState = legalReviewRequired ? 'license_review' : 'approved_for_ingestion';
+  // review_state: Red is terminally rejected regardless of what the policy's
+  // requires_review flag says — a prohibited source must never carry an
+  // approval-ish state. Otherwise license_review when a human must sign off;
+  // approval_status is auto-granted ONLY for a Green class needing no review.
+  const reviewState =
+    effectiveClass === 'Red' ? 'rejected' : legalReviewRequired ? 'license_review' : 'approved_for_ingestion';
   const approvalStatus =
-    effectiveClass === 'Green' && !legalReviewRequired ? 'approved_for_ingestion' : source.approval_status ?? null;
+    effectiveClass === 'Red'
+      ? 'rejected'
+      : effectiveClass === 'Green' && !legalReviewRequired
+        ? 'approved_for_ingestion'
+        : source.approval_status ?? null;
 
   const updated: SourceRecordType = SourceRecord.parse({
     ...source,
