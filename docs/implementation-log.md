@@ -1,0 +1,46 @@
+# Implementation Log — Knowledge Foundry
+
+Maintained by the Fable 5 orchestrator. Newest entries at the bottom.
+
+## 2026-07-04 — Phase 0: Repository assessment and implementation plan
+
+### 1. Repo assessment
+
+- **Repo type:** docs-only. Contents before this build: `docs/requirements/01–06*.md`, `docs/prompts/01-master-prompt.md`, `.claude/settings.local.json`. No `package.json`, no source code, not a git repository.
+- **Toolchain:** Node v24.15.0, npm 11.6.1, git 2.54 (Windows). Meets all needs; no installs required beyond npm packages.
+- **Conclusion:** Greenfield build. The target structure from the master prompt is adopted as-is (no existing layout to reconcile). Existing `docs/` files are preserved untouched; new docs are added alongside them. Repo will be `git init`-ed so domain configs and releases are versioned (per requirements 06).
+- **Requirements gaps noted (resolved by orchestrator decision, none product-direction-changing):**
+  - Master prompt lists `kf create-source` and `kf validate-release` — not described in requirements docs; implemented as registry-entry creation and release-gate re-check respectively.
+  - Requirements name the reference domain "CoreAevo"; master prompt says functional medicine and warns against hardcoding. Resolution: domain_id `functional-medicine`, with CoreAevo-style taxonomy content.
+  - "Sonnet 4.6" subagents requested; harness exposes model tier `sonnet` — used for all implementation subagents.
+  - No paid APIs in basic mode → discovery agent operates on user-supplied/manual candidate lists and web fetch; no search-API dependency in the CLI.
+
+### 2. Implementation phases
+
+| Phase | Content | Owner |
+|---|---|---|
+| 0 | Assessment, plan, decisions, git init, root + package scaffolding (package.json workspaces, tsconfigs, vitest, README, LICENSE, .gitignore) | Fable 5 (orchestrator) |
+| Wave A (parallel) | A1 zod schemas · A2 skillset files (SKILL/CLAUDE/AGENTS + 12 commands + 11 agents + 4 hooks) · A3 five domain templates · A4 functional-medicine reference domain + example | Sonnet subagents |
+| Wave B (sequential) | B1 core library modules + deterministic gates + adapters (needs A1) · B2 `kf` CLI, 15 commands (needs B1) | Sonnet subagents |
+| Wave C (parallel) | C1 Vitest unit/integration tests + fixtures · C2 developer docs (7 files) | Sonnet subagents |
+| Final | Orchestrator review of all output, `npm install/build/test`, run the 18 acceptance criteria end-to-end, fix gaps, `docs/v0.1-readiness-report.md`, commit | Fable 5 (orchestrator) |
+
+### 3. Subagent task breakdown (all Sonnet, constrained scope, disjoint file paths)
+
+1. **Schema Engineer** → `packages/core/src/schemas/` — 12 schemas (DomainConfig, SourceRecord, LicenseClassification, RawArtifactManifest, NormalizedDocument, ChunkRecord, ClaimRecord, RiskRecord, ConflictRecord, ReviewRecord, ReleaseManifest, EvaluationResult) + shared enums (license classes, allowed uses, review states, release states, ingestion priorities).
+2. **Skillset Writer** → `skill/` — SKILL.md, CLAUDE.md, AGENTS.md, 12 command files, 11 agent files, 4 hook files, each with the section structure mandated by the master prompt.
+3. **Domain Template Engineer** → `packages/domain-templates/{generic,healthcare,legal,finance,enterprise}/` — 7 YAML files each, schema-conformant; plus stub example READMEs for legal/finance/enterprise under `examples/`.
+4. **Functional Medicine Engineer** → `domains/functional-medicine/` (7 YAML) + `examples/functional-medicine/` (walkthrough + sample candidate sources + toy corpus inputs).
+5. **Core Engineer** → `packages/core/src/{storage,sourceRegistry,licensing,gates,ingestion,normalization,chunking,tagging,claims,risk,conflicts,release,evals}/` + `packages/adapters/src/{web,pdf,markdown,json,csv,localFs}/` (minimal v0.1 adapters; pdf = passthrough stub with clear error).
+6. **CLI Engineer** → `packages/cli/src/` — commander entrypoint `kf` + 15 commands mapping 1:1 to core functions, schema-validated I/O, actionable errors, correct exit codes.
+7. **Test Engineer** → `tests/{unit,integration,fixtures}/` — the 10 mandated test areas including Red-source ingestion block and missing-citation failure, plus toy-corpus happy path.
+8. **Documentation Engineer** → `docs/{getting-started,architecture,domain-config,license-policy,release-model,marketplace-readiness,functional-medicine-reference-domain}.md`.
+9. **Release Reviewer role** is retained by the orchestrator (final review, gap analysis, readiness report) per the master prompt's ownership split.
+
+### 4. v0.1 acceptance criteria (verbatim from master prompt; all must pass)
+
+1. `npm install` succeeds. 2. `npm test` succeeds. 3. `npm run build` succeeds. 4. `kf init-domain demo` creates a valid domain folder. 5. `kf validate-domain demo` validates it. 6. A toy source can be created and classified. 7. A Green source passes pre-ingest validation. 8. A Red source is blocked from ingestion. 9. A toy normalized document can be chunked. 10. A chunk missing citation fails validation. 11. A release manifest can be generated. 12. A release with unresolved high-risk flags is blocked. 13. The functional-medicine reference domain validates. 14. Skill files exist and are coherent. 15. Slash command files map to CLI commands. 16. Agent files include prompts and guardrails. 17. Documentation explains use and extension. 18. Project is handoff-ready without additional context.
+
+### 5. Initial architecture decisions
+
+Recorded as ADR-001 … ADR-014 in `docs/decisions.md`: npm workspaces; commander; zod; local-FS storage module; YAML domain configs; JSONL records / JSON manifests; Vitest; tsc builds; ESM + Node ≥ 20; directory-based release artifact with machine-readable manifest; deterministic code-only gates; markdown-defined skill commands/agents/hooks backed by CLI checks; zero domain strings in the engine; slug IDs + SHA-256-checksummed immutable raw artefacts.
