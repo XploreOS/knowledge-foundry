@@ -5,6 +5,7 @@
 // stable, grep-able `key: value` output. All artefact IO and every gate live in
 // core; this layer only parses flags and formats results.
 
+import { createRequire } from 'node:module';
 import { Command } from 'commander';
 import { CliError } from './lib/output.js';
 import { register as initDomain } from './commands/initDomain.js';
@@ -28,10 +29,14 @@ import { register as evalRag } from './commands/evalRag.js';
 
 const program = new Command();
 
+// Single source of truth for the CLI version is package.json (release-please
+// bumps it there); dist/index.js resolves it one directory up at runtime.
+const { version } = createRequire(import.meta.url)('../package.json') as { version: string };
+
 program
   .name('kf')
   .description('Knowledge Foundry — build governed, licensed, versioned, RAG-ready domain corpora')
-  .version('0.1.0')
+  .version(version)
   .option('--root <dir>', 'workspace root (falls back to KF_ROOT, then cwd)');
 
 // Every command registers itself with actions wrapped so that a thrown error

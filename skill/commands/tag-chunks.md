@@ -1,3 +1,7 @@
+---
+description: 'Tag chunks with the domain taxonomy: topics, entities, chunk types, evidence levels, audiences'
+---
+
 # /tag-chunks
 
 ## Purpose

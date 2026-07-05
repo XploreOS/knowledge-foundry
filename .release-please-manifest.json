@@ -1,0 +1,7 @@
+{
+  "packages/core": "0.2.0",
+  "packages/adapters": "0.2.0",
+  "packages/cli": "0.2.0",
+  "packages/domain-templates": "0.2.0",
+  "packages/claude-skill": "0.2.0"
+}

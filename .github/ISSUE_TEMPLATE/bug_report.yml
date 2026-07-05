@@ -1,0 +1,38 @@
+name: Bug report
+description: Something in a @knowledge-foundry package, the kf CLI, or the skill misbehaves
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Package and version
+      description: e.g. "@knowledge-foundry/cli 0.3.0" (kf --version)
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you run, what did you expect, what did you get? Paste exact command output — kf output is designed to be pasted.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Smallest sequence of kf commands (or code) that reproduces it, ideally from a fresh workspace directory.
+      render: shell
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: OS + Node version (node --version)
+      placeholder: Windows 11 / Node 22.11.0
+    validations:
+      required: true
+  - type: checkboxes
+    id: gate-related
+    attributes:
+      label: Gate behavior
+      options:
+        - label: This report is about a gate wrongly ALLOWING something (license/citation/risk/review/release). If so, please also read SECURITY.md — bypass bugs may deserve a private report.

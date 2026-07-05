@@ -1,8 +1,28 @@
 {
   "name": "@knowledge-foundry/domain-templates",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Starter domain configuration templates for Knowledge Foundry: generic, healthcare, legal, finance, enterprise.",
   "type": "module",
   "license": "MIT",
-  "files": ["generic", "healthcare", "legal", "finance", "enterprise"]
+  "homepage": "https://github.com/XploreOS/knowledge-foundry#readme",
+  "bugs": "https://github.com/XploreOS/knowledge-foundry/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XploreOS/knowledge-foundry.git",
+    "directory": "packages/domain-templates"
+  },
+  "keywords": [
+    "domain-config",
+    "templates",
+    "rag",
+    "knowledge-base",
+    "governance"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "files": ["generic", "healthcare", "legal", "finance", "enterprise"],
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,3 +1,7 @@
+---
+description: Normalize a raw artefact into clean Markdown with a metadata sidecar
+---
+
 # /normalize-document
 
 ## Purpose

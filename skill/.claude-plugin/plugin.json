@@ -1,0 +1,11 @@
+{
+  "name": "knowledge-foundry",
+  "displayName": "Knowledge Foundry",
+  "description": "Governed pipeline for building trusted, licensed, versioned, RAG-ready domain corpora, driven by the deterministic kf CLI. Install the CLI with: npm install -g @knowledge-foundry/cli",
+  "author": { "name": "XploreOS" },
+  "homepage": "https://github.com/XploreOS/knowledge-foundry#readme",
+  "repository": "https://github.com/XploreOS/knowledge-foundry",
+  "license": "MIT",
+  "keywords": ["rag", "knowledge-base", "corpus", "governance", "licensing"],
+  "agents": []
+}

@@ -2,6 +2,10 @@ node_modules/
 dist/
 *.tsbuildinfo
 coverage/
+*.tgz
+
+# Generated at pack time from the root skill/ directory (see packages/claude-skill)
+packages/claude-skill/skill/
 
 # Generated corpus artefacts (commit these in downstream corpus repos, not in the toolkit repo)
 /data/

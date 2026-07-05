@@ -1,49 +1,89 @@
 # Example: Finance — SEC Filings Corpus
 
-Illustrates how you'd stand up a corpus of public company SEC filings by
-adapting `packages/domain-templates/finance/` rather than building a
-domain configuration from scratch.
+Builds a small public-filings research corpus from the `finance` domain
+template: a fictional issuer 10-K and a central-bank primer (both Green)
+reach an **approved** release, while a licensed sell-side research note is
+classified Red and never ingested — redistribution-restricted research is
+the classic license trap in finance corpora. All content is fictional
+("ACME Industrial Holdings", "Central Bank of Exampleton").
 
-## Sketch of the workflow
+| source_id | type | license | what it demonstrates |
+|---|---|---|---|
+| `acme-10k-fy2025` | filing | Green | public filing; answers the risk-factor/earnings/dividend eval questions |
+| `market-regulatory-primer` | regulation | Green | rates/yields/capital-requirements coverage; paragraph-chunked |
+| `vendor-analyst-research` | analyst_report | Red | licensed research; `preIngestGate` blocks it unconditionally |
+
+Files: `sample-sources.jsonl`, `corpus/*.md`,
+`reference-release/manifest.json` (committed reference output).
+
+## Walkthrough
 
 ```sh
-# 1. Copy the finance template and adapt it for filings research
-cp -r packages/domain-templates/finance domains/sec-filings
+# 1. Domain
+kf init-domain sec-filings --template finance
 kf validate-domain sec-filings
 
-# 2. Register sources: a 10-K, a 10-Q, and an analyst research note
-kf create-source --domain sec-filings --type filing --title "Acme Corp 10-K FY2025"
-kf create-source --domain sec-filings --type filing --title "Acme Corp 10-Q Q2 2026"
-kf create-source --domain sec-filings --type analyst_report --title "Acme Corp Equity Research Note"
+# 2. Sources
+kf create-source --domain sec-filings --source-id acme-10k-fy2025 \
+  --title "ACME Industrial Holdings, Inc. - Form 10-K (FY2025)" \
+  --publisher "ACME Industrial Holdings, Inc. (via public filings portal)" \
+  --url "https://filings.exampleton.gov/acme/10-k-fy2025" \
+  --source-type filing --topics regulatory_filings,earnings,equities \
+  --likely-license Green --priority P0
 
-# 3. Classify license before ingestion
-kf classify-license --source <source_id> --class Green   # public EDGAR filing
-kf classify-license --source <source_id> --class Green   # public EDGAR filing
-kf classify-license --source <source_id> --class Orange  # paid analyst research, needs contract approval
+kf create-source --domain sec-filings --source-id market-regulatory-primer \
+  --title "Rates, Yields, and Capital Requirements: A Public Primer" \
+  --publisher "Central Bank of Exampleton" \
+  --url "https://centralbank.exampleton.gov/primers/rates-yields-capital" \
+  --source-type regulation --topics macro_economics,fixed_income,regulatory_filings \
+  --likely-license Green --priority P0
 
-# 4. Ingest, normalize, chunk, and tag each approved source
-kf ingest --source <source_id>
-kf normalize --source <source_id>
-kf chunk --source <source_id>
-kf tag --source <source_id>
+kf create-source --domain sec-filings --source-id vendor-analyst-research \
+  --title "ACME Industrial: Initiation of Coverage (Licensed Research)" \
+  --publisher "Sell-Side Research Vendor (illustrative, licensed)" \
+  --url "https://research-vendor.invalid/acme/initiation" \
+  --source-type analyst_report --topics equities,earnings \
+  --likely-license Red --priority P2
 
-# 5. Screen for risk (MNPI language, undated figures, license gaps)
-kf screen-risk --domain sec-filings
+# 3. Classify: the vendor note is Red and stops here for good
+kf classify-license --domain sec-filings --source-id acme-10k-fy2025 --class Green
+kf classify-license --domain sec-filings --source-id market-regulatory-primer --class Green
+kf classify-license --domain sec-filings --source-id vendor-analyst-research --class Red
 
-# 6. Build a release once gates pass and reviewers have signed off
-kf build-release --domain sec-filings --tier rag
+# 4. Pipeline for each Green source (shown once; repeat for the second id)
+kf ingest        --domain sec-filings --source-id acme-10k-fy2025 \
+  --file examples/finance-sec-filings/corpus/acme-10k-fy2025.md
+kf normalize     --domain sec-filings --source-id acme-10k-fy2025
+kf chunk         --domain sec-filings --source-id acme-10k-fy2025
+kf tag           --domain sec-filings --source-id acme-10k-fy2025
+kf extract-claims --domain sec-filings --source-id acme-10k-fy2025
+kf screen-risk   --domain sec-filings --source-id acme-10k-fy2025
 
-# 7. Evaluate against the domain's eval questions before shipping
-kf eval-rag --release <release_id>
+# 5. Release + evaluation
+kf detect-conflicts --domain sec-filings
+kf build-release --domain sec-filings --release-id sec-filings-rag-v0.1.0
+kf eval-rag      --domain sec-filings --release-id sec-filings-rag-v0.1.0
+# -> citation_coverage 1.0, retrieval_precision 1.0, thresholds: PASS
+# eval-006 ("Should I buy this stock...") is the unsafe-question probe: the
+# corpus deliberately answers it with a no-recommendation section.
+
+# 6. Sign-offs (safety_review quorum 2 across [compliance_sme, legal]) + approval
+kf review --domain sec-filings --target-type release --target-id sec-filings-rag-v0.1.0 \
+  --role legal --decision approved --reviewer a.counsel
+kf review --domain sec-filings --target-type release --target-id sec-filings-rag-v0.1.0 \
+  --role compliance_sme --decision approved --reviewer c.compliance
+kf approve-release --domain sec-filings --release-id sec-filings-rag-v0.1.0
+# -> state: approved; compare against reference-release/manifest.json
 ```
 
 ## Notes
 
-- The analyst note stays `Orange` — blocked from `rag` — until legal
-  confirms the firm's contract permits this use (see the template's
-  `source_policy.yaml`).
-- Every filing chunk should carry `as_of_date` metadata; `screen-risk`
-  flags chunks that state a figure without one, per the
-  `flag-undated-market-figures` rule.
-- See `packages/domain-templates/finance/README.md` for the full
-  adaptation checklist.
+- **Topic-tag lines.** The deterministic tagger matches taxonomy topic
+  slugs literally in chunk text, so sections carry `*Topic tags: ...*`
+  lines (`regulatory_filings`, `macro_economics`, ... never occur in
+  natural prose). See the legal example README for the same pattern.
+- **Filings chunk by heading, regulations by paragraph** — the primer's
+  tag lines sit attached to their paragraphs for that reason.
+- The Red analyst note is registered on purpose: a real discovery pass
+  will surface licensed research constantly, and the registry is where its
+  prohibition is recorded and enforced, not a wiki page.

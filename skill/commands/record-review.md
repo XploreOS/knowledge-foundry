@@ -1,3 +1,7 @@
+---
+description: Record a human reviewer decision on a source, chunk, claim, risk, conflict, or release
+---
+
 # /record-review
 
 ## Purpose

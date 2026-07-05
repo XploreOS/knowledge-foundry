@@ -1,3 +1,7 @@
+---
+description: 'Scaffold a new domain: seven YAML config files from a starter template'
+---
+
 # /init-domain
 
 ## Purpose

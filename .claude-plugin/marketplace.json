@@ -1,0 +1,20 @@
+{
+  "name": "knowledge-foundry",
+  "owner": {
+    "name": "XploreOS"
+  },
+  "description": "Knowledge Foundry plugins for Claude Code — governed, licensed, versioned, RAG-ready domain corpora.",
+  "plugins": [
+    {
+      "name": "knowledge-foundry",
+      "source": "./skill",
+      "description": "Governed corpus pipeline: source discovery, license gates, ingestion, chunking, tagging, risk screening, human review quorums, and versioned releases, driven by the deterministic kf CLI.",
+      "author": { "name": "XploreOS" },
+      "homepage": "https://github.com/XploreOS/knowledge-foundry#readme",
+      "repository": "https://github.com/XploreOS/knowledge-foundry",
+      "license": "MIT",
+      "keywords": ["rag", "knowledge-base", "corpus", "governance", "licensing"],
+      "category": "workflow"
+    }
+  ]
+}

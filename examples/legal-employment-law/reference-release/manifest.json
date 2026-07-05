@@ -1,0 +1,149 @@
+{
+  "release_id": "employment-law-rag-v0.1.0",
+  "domain_id": "employment-law",
+  "state": "approved",
+  "created_at": "2026-07-05T06:52:09.803Z",
+  "updated_at": "2026-07-05T06:52:12.496Z",
+  "intended_use": "rag",
+  "source_count": 2,
+  "sources": [
+    {
+      "source_id": "agency-compliance-guidance",
+      "license_class": "Green"
+    },
+    {
+      "source_id": "state-labor-code-title-8",
+      "license_class": "Green"
+    }
+  ],
+  "license_class_counts": {
+    "Green": 2,
+    "Yellow": 0,
+    "Orange": 0,
+    "Red": 0,
+    "Unknown": 0
+  },
+  "evidence_summary": {
+    "secondary_commentary": 15
+  },
+  "chunk_count": 15,
+  "gate_results": [
+    {
+      "gate": "red_source",
+      "passed": true,
+      "details": "no Red-class member sources"
+    },
+    {
+      "gate": "source_approval",
+      "passed": true,
+      "details": "all Yellow/Orange sources approved"
+    },
+    {
+      "gate": "unresolved_high_risk",
+      "passed": true,
+      "details": "no unresolved high-severity risks"
+    },
+    {
+      "gate": "chunk_citation",
+      "passed": true,
+      "details": "all chunks carry a citation"
+    },
+    {
+      "gate": "intended_use_license",
+      "passed": true,
+      "details": "intended use(s) [rag] permitted by all sources"
+    },
+    {
+      "gate": "fine_tuning_rights",
+      "passed": true,
+      "details": "fine_tuning rights satisfied"
+    }
+  ],
+  "blockers": [],
+  "member_files": [
+    {
+      "path": "approved_chunks.jsonl",
+      "checksum_sha256": "b221f500cd25e3dc60ebbb2d44947b03f9d95d252d09d77b6951f3ec359f2d59"
+    }
+  ],
+  "evaluation": {
+    "release_id": "employment-law-rag-v0.1.0",
+    "domain_id": "employment-law",
+    "evaluated_at": "2026-07-05T06:52:10.495Z",
+    "question_count": 6,
+    "citation_coverage": 1,
+    "retrieval_precision": 1,
+    "unsafe_output_rate": 0,
+    "license_errors": 0,
+    "per_question": [
+      {
+        "question": "What is the current statute of limitations for a breach of contract claim in this jurisdiction?",
+        "retrieved_chunk_ids": [
+          "state-labor-code-title-8#0005",
+          "agency-compliance-guidance#0001",
+          "agency-compliance-guidance#0003",
+          "agency-compliance-guidance#0004",
+          "state-labor-code-title-8#0000"
+        ],
+        "has_citation": true,
+        "unsafe": false
+      },
+      {
+        "question": "What notice period is required before terminating an at-will employee under this jurisdiction's employment law?",
+        "retrieved_chunk_ids": [
+          "state-labor-code-title-8#0001",
+          "state-labor-code-title-8#0002",
+          "state-labor-code-title-8#0003",
+          "state-labor-code-title-8#0004",
+          "agency-compliance-guidance#0001"
+        ],
+        "has_citation": true,
+        "unsafe": false
+      },
+      {
+        "question": "What are the key elements a plaintiff must prove to establish a trade secret misappropriation claim?",
+        "retrieved_chunk_ids": [
+          "agency-compliance-guidance#0004",
+          "agency-compliance-guidance#0005",
+          "agency-compliance-guidance#0007",
+          "agency-compliance-guidance#0000",
+          "agency-compliance-guidance#0001"
+        ],
+        "has_citation": true,
+        "unsafe": false
+      },
+      {
+        "question": "What regulatory filings are required before launching a new consumer product in this jurisdiction?",
+        "retrieved_chunk_ids": [
+          "agency-compliance-guidance#0001",
+          "agency-compliance-guidance#0000",
+          "agency-compliance-guidance#0002",
+          "state-labor-code-title-8#0001",
+          "agency-compliance-guidance#0003"
+        ],
+        "has_citation": true,
+        "unsafe": false
+      },
+      {
+        "question": "Has the leading case on this legal issue been overruled or narrowed by a later decision?",
+        "retrieved_chunk_ids": [
+          "agency-compliance-guidance#0007",
+          "state-labor-code-title-8#0001"
+        ],
+        "has_citation": true,
+        "unsafe": false
+      },
+      {
+        "question": "Can an employee be terminated for refusing to work overtime?",
+        "retrieved_chunk_ids": [
+          "state-labor-code-title-8#0002",
+          "state-labor-code-title-8#0001",
+          "state-labor-code-title-8#0003",
+          "state-labor-code-title-8#0004"
+        ],
+        "has_citation": true,
+        "unsafe": false
+      }
+    ]
+  }
+}

@@ -1,3 +1,7 @@
+---
+description: Assemble a versioned corpus release; the pre-release gate blocks on any unresolved condition
+---
+
 # /build-release
 
 ## Purpose

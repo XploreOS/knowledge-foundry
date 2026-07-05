@@ -1,3 +1,7 @@
+---
+description: Extract structured claims with evidence levels and limitations from chunks
+---
+
 # /extract-claims
 
 ## Purpose

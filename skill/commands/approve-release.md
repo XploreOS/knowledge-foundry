@@ -1,3 +1,7 @@
+---
+description: Approve a draft release once the gate re-passes, evaluation is attached, and every required review stage has its recorded sign-off quorum
+---
+
 # /approve-release
 
 ## Purpose

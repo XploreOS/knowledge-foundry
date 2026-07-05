@@ -1,3 +1,7 @@
+---
+description: Evaluate a release's retrieval quality against the domain's eval questions
+---
+
 # /evaluate-rag
 
 ## Purpose

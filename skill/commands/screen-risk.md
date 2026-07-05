@@ -1,3 +1,7 @@
+---
+description: Screen chunks and claims against the domain risk rules; record severity-classified flags
+---
+
 # /screen-risk
 
 ## Purpose

@@ -1,3 +1,7 @@
+---
+description: Detect contradictions between sources on shared topics and record ConflictRecords
+---
+
 # /detect-conflicts
 
 ## Purpose

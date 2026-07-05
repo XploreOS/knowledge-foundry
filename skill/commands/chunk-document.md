@@ -1,3 +1,7 @@
+---
+description: Chunk a normalized document into citation-carrying ChunkRecords
+---
+
 # /chunk-document
 
 ## Purpose

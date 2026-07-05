@@ -1,3 +1,7 @@
+---
+description: Classify a source license (Green/Yellow/Orange/Red) and record allowed uses and approval
+---
+
 # /classify-license
 
 ## Purpose

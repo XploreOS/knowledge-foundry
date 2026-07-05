@@ -1,9 +1,16 @@
 {
   "name": "knowledge-foundry",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "A standalone Claude Code skillset and TypeScript CLI for building governed, licensed, versioned, RAG-ready domain knowledge corpora.",
   "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/XploreOS/knowledge-foundry#readme",
+  "bugs": "https://github.com/XploreOS/knowledge-foundry/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XploreOS/knowledge-foundry.git"
+  },
   "engines": {
     "node": ">=20"
   },
@@ -11,12 +18,14 @@
     "packages/core",
     "packages/adapters",
     "packages/cli",
-    "packages/domain-templates"
+    "packages/domain-templates",
+    "packages/claude-skill"
   ],
   "scripts": {
     "build": "npm run build -w @knowledge-foundry/core && npm run build -w @knowledge-foundry/adapters && npm run build -w @knowledge-foundry/cli",
     "test": "npm run build && vitest run",
     "test:watch": "vitest",
+    "audit": "npm audit --audit-level=high",
     "clean": "node -e \"for (const p of ['packages/core','packages/adapters','packages/cli']) require('fs').rmSync(p + '/dist', {recursive: true, force: true})\""
   },
   "devDependencies": {

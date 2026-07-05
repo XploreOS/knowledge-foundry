@@ -1,9 +1,26 @@
 {
   "name": "@knowledge-foundry/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Domain-agnostic core library for Knowledge Foundry: schemas, storage, gates, and corpus pipeline operations.",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/XploreOS/knowledge-foundry#readme",
+  "bugs": "https://github.com/XploreOS/knowledge-foundry/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XploreOS/knowledge-foundry.git",
+    "directory": "packages/core"
+  },
+  "keywords": [
+    "rag",
+    "knowledge-base",
+    "corpus",
+    "governance",
+    "licensing",
+    "provenance",
+    "llm",
+    "claude"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -16,10 +33,14 @@
     }
   },
   "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@knowledge-foundry/domain-templates": "^0.2.0",
     "yaml": "^2.6.0",
     "zod": "^3.24.0"
   }

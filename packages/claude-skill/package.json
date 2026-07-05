@@ -1,0 +1,35 @@
+{
+  "name": "@knowledge-foundry/skill",
+  "version": "0.2.0",
+  "description": "npx installer for the Knowledge Foundry Claude Code skill: governed corpus building with the kf CLI.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/XploreOS/knowledge-foundry#readme",
+  "bugs": "https://github.com/XploreOS/knowledge-foundry/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XploreOS/knowledge-foundry.git",
+    "directory": "packages/claude-skill"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skill",
+    "plugin",
+    "rag",
+    "knowledge-base"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "knowledge-foundry-skill": "./bin/install.mjs"
+  },
+  "files": ["bin", "skill"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepack": "node scripts/sync-skill.mjs"
+  }
+}

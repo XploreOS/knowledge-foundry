@@ -1,3 +1,7 @@
+---
+description: Discover and register candidate sources for a domain
+---
+
 # /discover-source
 
 ## Purpose

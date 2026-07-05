@@ -1,3 +1,7 @@
+---
+description: Ingest an approved source raw artefact write-once (pre-ingest license gate enforced)
+---
+
 # /ingest-source
 
 ## Purpose

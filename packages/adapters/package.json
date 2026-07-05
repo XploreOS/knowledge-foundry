@@ -1,9 +1,23 @@
 {
   "name": "@knowledge-foundry/adapters",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Ingestion and format adapters for Knowledge Foundry: local filesystem, web, markdown, JSON, CSV, PDF.",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/XploreOS/knowledge-foundry#readme",
+  "bugs": "https://github.com/XploreOS/knowledge-foundry/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XploreOS/knowledge-foundry.git",
+    "directory": "packages/adapters"
+  },
+  "keywords": [
+    "rag",
+    "ingestion",
+    "adapters",
+    "corpus",
+    "knowledge-base"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -16,10 +30,13 @@
     }
   },
   "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@knowledge-foundry/core": "0.1.0"
+    "@knowledge-foundry/core": "^0.2.0"
   }
 }
