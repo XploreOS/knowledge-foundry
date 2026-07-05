@@ -3,10 +3,15 @@
 // skill hooks all call these exact functions so the rules live once, in code.
 // A gate result comes only from here; agents may prepare data but never decide.
 
+import { REVIEW_STAGES } from '../schemas/index.js';
 import type {
   AllowedUseKey,
   ChunkRecord,
   LicenseClass,
+  ReviewRecord,
+  ReviewStageName,
+  ReviewWorkflowStage,
+  ReviewWorkflowYaml,
   RiskRecord,
   SourceRecord,
 } from '../schemas/index.js';
@@ -226,4 +231,130 @@ function check(gate: string, failures: string[], passDetail: string): ReleaseChe
 export function preReleaseGate(input: ReleaseGateInput): ReleaseGateResult {
   const { allowed, blockers } = evaluateRelease(input);
   return { allowed, blockers };
+}
+
+// --- review-workflow quorum gate (v0.2) -------------------------------------
+
+/** One reviewer's effective sign-off (or rejection) counted toward a stage. */
+export interface StageSignoff {
+  reviewer: string;
+  role: string;
+}
+
+/** Quorum verdict for a single review_workflow.yaml stage. */
+export interface StageEvaluation {
+  stage: ReviewStageName;
+  required: boolean;
+  quorum: 'any' | 'all' | number;
+  roles: string[];
+  approvals: StageSignoff[];
+  rejections: StageSignoff[];
+  satisfied: boolean;
+  /** Why the stage is not satisfied; empty when satisfied. */
+  reasons: string[];
+}
+
+/** Aggregate verdict of every stage in a domain's review workflow. */
+export interface ReviewWorkflowEvaluation {
+  satisfied: boolean;
+  stages: StageEvaluation[];
+  blockers: string[];
+}
+
+/**
+ * Reduce a stage's relevant reviews to one effective decision per reviewer:
+ * only reviews by a role the stage lists count, and a reviewer's LATEST
+ * decision wins (ordered by reviewed_at, tie-broken by review_id), so a
+ * reviewer can supersede an earlier decision. Output is reviewer-sorted for
+ * deterministic downstream reporting.
+ */
+function effectiveStageDecisions(
+  stage: ReviewWorkflowStage,
+  reviews: readonly ReviewRecord[],
+): ReviewRecord[] {
+  const ordered = reviews
+    .filter((review) => stage.roles.includes(review.role))
+    .sort((a, b) =>
+      a.reviewed_at < b.reviewed_at ? -1 : a.reviewed_at > b.reviewed_at ? 1 :
+      a.review_id < b.review_id ? -1 : a.review_id > b.review_id ? 1 : 0,
+    );
+  const latest = new Map<string, ReviewRecord>();
+  for (const review of ordered) latest.set(review.reviewer, review);
+  return [...latest.values()].sort((a, b) => (a.reviewer < b.reviewer ? -1 : 1));
+}
+
+/**
+ * Evaluate one review-workflow stage against the reviews recorded for a single
+ * target. Quorum semantics (domain-config.md §6):
+ *   - "any"    -> at least one approval from any listed role
+ *   - "all"    -> every listed role has at least one approval
+ *   - number n -> at least n distinct approving reviewers across listed roles
+ * Any effective rejection by a listed role blocks the stage outright, and
+ * `edited`/`needs_info` decisions never count toward quorum. A stage with
+ * required=false is always satisfied (recorded decisions are still reported).
+ */
+export function evaluateReviewStage(
+  name: ReviewStageName,
+  stage: ReviewWorkflowStage,
+  reviews: readonly ReviewRecord[],
+): StageEvaluation {
+  const decisions = effectiveStageDecisions(stage, reviews);
+  const approvals: StageSignoff[] = [];
+  const rejections: StageSignoff[] = [];
+  for (const review of decisions) {
+    const signoff = { reviewer: review.reviewer, role: review.role };
+    if (review.decision === 'approved') approvals.push(signoff);
+    if (review.decision === 'rejected') rejections.push(signoff);
+  }
+
+  const reasons: string[] = [];
+  for (const rejection of rejections) {
+    reasons.push(`stage ${name}: rejected by ${rejection.reviewer} (${rejection.role})`);
+  }
+
+  if (stage.quorum === 'any') {
+    if (approvals.length < 1) {
+      reasons.push(`stage ${name}: no approval recorded (needs any of roles [${stage.roles.join(', ')}])`);
+    }
+  } else if (stage.quorum === 'all') {
+    const approvedRoles = new Set(approvals.map((a) => a.role));
+    const missing = stage.roles.filter((role) => !approvedRoles.has(role));
+    if (missing.length > 0) {
+      reasons.push(`stage ${name}: missing approval from role(s) [${missing.join(', ')}]`);
+    }
+  } else if (approvals.length < stage.quorum) {
+    reasons.push(
+      `stage ${name}: ${approvals.length} of ${stage.quorum} required approvals recorded (roles [${stage.roles.join(', ')}])`,
+    );
+  }
+
+  const satisfied = !stage.required || reasons.length === 0;
+  return {
+    stage: name,
+    required: stage.required,
+    quorum: stage.quorum,
+    roles: [...stage.roles],
+    approvals,
+    rejections,
+    satisfied,
+    reasons: satisfied ? [] : reasons,
+  };
+}
+
+/**
+ * Evaluate every stage of a domain's review workflow against the reviews
+ * recorded for ONE target (the caller filters reviews to that target, e.g.
+ * target_type=release + target_id). A review counts toward every stage that
+ * lists its role. Blockers aggregate the unsatisfied required stages' reasons
+ * in declared stage order.
+ */
+export function evaluateReviewWorkflow(
+  workflow: ReviewWorkflowYaml,
+  reviews: readonly ReviewRecord[],
+): ReviewWorkflowEvaluation {
+  const stages = REVIEW_STAGES.map((name) =>
+    evaluateReviewStage(name, workflow.stages[name], reviews),
+  );
+  const blockers = stages.flatMap((stage) => stage.reasons);
+  return { satisfied: blockers.length === 0, stages, blockers };
 }

@@ -58,6 +58,17 @@ Maintained by the Fable 5 orchestrator. Newest entries at the bottom.
 - **Tests (C1, Opus, resumed after session-limit interruption)**: 60 tests / 10 files, all passing; covers every mandated area incl. CLI e2e happy path and both CLI failure paths; zero source bugs found.
 - **Final acceptance (orchestrator)**: fresh `npm test` (build + 60/60), live `kf init-domain demo` / `validate-domain demo` / `validate-domain functional-medicine` all pass. **18/18 acceptance criteria met** — see `docs/v0.1-readiness-report.md`.
 
+## 2026-07-05 — v0.2: Review workflow enforcement
+
+`review_workflow.yaml` is now enforced in code, not organizationally.
+
+- **Quorum gate (pure)**: `evaluateReviewStage` / `evaluateReviewWorkflow` added to `packages/core/src/gates/` — a review counts toward every stage listing its role; a reviewer's latest decision wins (reviewed_at, tie-broken by review_id); `edited`/`needs_info` never count; any effective rejection blocks the stage; quorum `any` = 1 approval, `all` = every listed role, number = that many distinct approving reviewers; `required: false` stages never block. `ReviewWorkflowStage`, `REVIEW_STAGES`, `ReviewStageName` exported from schemas.
+- **Reviews module**: `packages/core/src/reviews/` — `recordReview` (role must be in `domain.yaml` `review_roles`; sequential zero-padded `reviewId` `<domain>-review-<seq>` keeps `data/reviews/<domain_id>/reviews.jsonl` in recording order under ADR-006 id-sorting), `listReviews`, `reviewsForTarget`.
+- **Release approval**: `approveRelease` in `packages/core/src/release/` — draft-only (blocked → rebuild; past-draft → immutable), pre-release gate must re-pass, `EvaluationResult` must be attached, every required stage's quorum must be recorded against `target_type=release`; on any blocker the manifest is untouched and reasons returned.
+- **CLI**: `kf review` (record sign-off + print per-stage status), `kf review-status` (read-only; non-zero exit while unsatisfied), `kf approve-release` (flips `state` to `approved` or prints `RELEASE APPROVAL BLOCKED` with every reason). 18 commands total.
+- **Tests**: 82 passing (was 60) — `tests/unit/review-workflow.test.ts` (15 quorum/record cases) and `tests/integration/cli-review-approval.test.ts` (7 e2e cases: blocked-without-eval/sign-offs, undeclared role, unknown release, partial quorum, full approval, immutability, rejection blocks).
+- **Docs**: release-model (approval enforcement section), domain-config §6 (enforcement semantics), getting-started (step 14), architecture diagram, contract-spec §6, skill SKILL/CLAUDE + new `skill/commands/record-review.md` and `approve-release.md`.
+
 ### Architecture decisions reference
 
 Recorded as ADR-001 … ADR-014 in `docs/decisions.md`: npm workspaces; commander; zod; local-FS storage module; YAML domain configs; JSONL records / JSON manifests; Vitest; tsc builds; ESM + Node ≥ 20; directory-based release artifact with machine-readable manifest; deterministic code-only gates; markdown-defined skill commands/agents/hooks backed by CLI checks; zero domain strings in the engine; slug IDs + SHA-256-checksummed immutable raw artefacts.

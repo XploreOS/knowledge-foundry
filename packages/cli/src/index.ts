@@ -19,8 +19,11 @@ import { register as tag } from './commands/tag.js';
 import { register as extractClaims } from './commands/extractClaims.js';
 import { register as screenRisk } from './commands/screenRisk.js';
 import { register as detectConflicts } from './commands/detectConflicts.js';
+import { register as review } from './commands/review.js';
+import { register as reviewStatus } from './commands/reviewStatus.js';
 import { register as buildRelease } from './commands/buildRelease.js';
 import { register as validateRelease } from './commands/validateRelease.js';
+import { register as approveRelease } from './commands/approveRelease.js';
 import { register as evalRag } from './commands/evalRag.js';
 
 const program = new Command();
@@ -46,8 +49,11 @@ const registrars = [
   extractClaims,
   screenRisk,
   detectConflicts,
+  review,
+  reviewStatus,
   buildRelease,
   validateRelease,
+  approveRelease,
   evalRag,
 ];
 for (const register of registrars) register(program);

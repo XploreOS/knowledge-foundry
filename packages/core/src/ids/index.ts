@@ -35,6 +35,14 @@ export function conflictId(domain: string, seq: number): string {
   return `${slugify(domain)}-conflict-${seq}`;
 }
 
+/**
+ * Review id: `<domain>-review-<zero-padded-seq>`, e.g. `demo-review-0007`.
+ * Zero-padded so reviews.jsonl (sorted by id, ADR-006) stays in recording order.
+ */
+export function reviewId(domain: string, seq: number): string {
+  return `${slugify(domain)}-review-${String(seq).padStart(4, '0')}`;
+}
+
 /** The on-disk directory name for a release is simply its release id. */
 export function releaseDirName(releaseId: string): string {
   return releaseId;

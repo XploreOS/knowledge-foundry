@@ -89,7 +89,13 @@ fabricate missing data to keep moving (`../skill/AGENTS.md`).
                                                                   │      (evals/<release_id>/results.json,
                                                                   │       embedded in manifest.evaluation)
                                                                   ▼
-                                        validate-release / human release review ──► state: approved
+                                      review (recorded sign-offs per review_workflow.yaml stage)
+                                                                  │
+                                                                  ▼
+                                     approve-release ── quorum/gate/eval unmet? ──► blocked, reasons[]
+                                                                  │ pass
+                                                                  ▼
+                                                          state: approved
                                                                   │
                                                                   ▼
                                                     indexed  ──►  deprecated (new release_id to correct)

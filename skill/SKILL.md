@@ -153,7 +153,11 @@ Human review is a hard checkpoint, not a courtesy step, at four points:
   `approved`.
 
 Agents prepare the material for each of these reviews (drafts, flags,
-summaries) but never record the review decision themselves.
+summaries) but never record the review decision themselves. A human
+records each decision as a `ReviewRecord` via `kf review` (role, decision,
+reviewer, target), and `kf approve-release` enforces the per-stage
+sign-off quorum declared in `review_workflow.yaml` — in code, not as a
+suggestion.
 
 ## Release requirements
 
@@ -172,7 +176,9 @@ only reaches `approved` when, and only when:
   rights;
 - RAG evaluation has run and its results are attached to the manifest;
 - the required human reviewers (per `domains/<domain_id>/review_workflow.yaml`)
-  have signed off.
+  have signed off — recorded via `kf review` and enforced by
+  `kf approve-release`, which refuses while any required stage lacks its
+  quorum or carries a rejection.
 
 Releases move `draft → blocked | approved → indexed → deprecated` and are
 treated as immutable once they leave `draft` — corrections mean a new

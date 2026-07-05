@@ -16,6 +16,8 @@ import type {
   AllowedUses,
   DomainConfig,
   SourceRecord,
+  StageEvaluation,
+  StageSignoff,
   WorkspaceOpts,
 } from '@knowledge-foundry/core';
 import { fail } from './output.js';
@@ -71,6 +73,22 @@ export function allowedUsesList(u?: AllowedUses): string {
   if (!u) return 'none';
   const granted = ALLOWED_USE_KEYS.filter((k) => u[k]);
   return granted.length > 0 ? granted.join(', ') : 'none';
+}
+
+function signoffs(list: StageSignoff[]): string {
+  return list.length > 0 ? list.map((s) => `${s.reviewer}(${s.role})`).join(', ') : 'none';
+}
+
+/** One grep-able status line for a review-workflow stage quorum verdict. */
+export function formatStageEvaluation(stage: StageEvaluation): string {
+  const parts = [
+    stage.satisfied ? 'satisfied' : 'NOT satisfied',
+    `quorum=${stage.quorum} of [${stage.roles.join(', ')}]`,
+    `required=${stage.required}`,
+    `approvals: ${signoffs(stage.approvals)}`,
+  ];
+  if (stage.rejections.length > 0) parts.push(`rejections: ${signoffs(stage.rejections)}`);
+  return parts.join(' — ');
 }
 
 /** Parse a comma-separated --intended-use value into validated AllowedUseKeys. */

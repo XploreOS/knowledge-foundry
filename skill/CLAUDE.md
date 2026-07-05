@@ -88,9 +88,10 @@ proceed if it exits clean. The table below is the authoritative mapping.
 | Claim extraction | `kf extract-claims` | Every claim has population, intervention, outcome, evidence level |
 | Risk screening | `kf screen-risk` | Rules from `domains/<domain_id>/risk_rules.yaml` applied; flags recorded with severity |
 | Conflict detection | `kf detect-conflicts` | Contradictions across sources on shared topics recorded |
-| Human review | (human decision, recorded via the review workflow) | `review_state` moves to `needs_review` → `approved` or `rejected` |
+| Human review | `kf review` (one invocation per reviewer decision) | Decision recorded as a `ReviewRecord`; role must be declared in `domain.yaml` `review_roles` |
 | Release build | `kf build-release`, then `kf validate-release` | All release-blocking conditions in Rule 6 clear before `state` may move past `blocked` |
 | RAG evaluation | `kf eval-rag` | Evaluation results attached to the release manifest |
+| Release approval | `kf review` (sign-offs on the release), then `kf approve-release` | Every required `review_workflow.yaml` stage has its recorded quorum, no recorded rejection stands, the release gate re-passes, and an `EvaluationResult` is attached — only then does `state` become `approved` |
 
 Do not skip a row. If a required upstream artefact is missing or fails
 schema validation, stop and surface the failure — do not fabricate the
@@ -122,6 +123,7 @@ environment variable).
 | `data/claims/<source_id>/` | `claims.jsonl` — extracted claims with evidence level and limitations |
 | `data/risk/<source_id>/` | `risk.jsonl` — risk flags with type, severity, action, resolved |
 | `data/conflicts/<domain_id>/` | Conflict records (one file per topic) referencing conflicting chunk IDs |
+| `data/reviews/<domain_id>/` | `reviews.jsonl` — recorded reviewer sign-offs (`ReviewRecord`s) aggregated by the review-workflow quorum gate |
 | `releases/<domain_id>/<release_id>/` | `manifest.json`, `approved_chunks.jsonl` for a versioned release |
 | `evals/<release_id>/results.json` | Canonical `EvaluationResult` for a release run by `kf eval-rag`; also embedded in the release manifest's `evaluation` field |
 

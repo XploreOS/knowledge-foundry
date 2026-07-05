@@ -1,8 +1,8 @@
 # Getting Started
 
 A 10-minute walkthrough: install the project, stand up a toy domain, and
-push one source through the full 13-stage pipeline to a versioned,
-evaluated release. See [architecture.md](architecture.md) for how the
+push one source through the full pipeline to a versioned, evaluated,
+sign-off-approved release. See [architecture.md](architecture.md) for how the
 pieces fit together, [domain-config.md](domain-config.md) for the YAML
 files referenced below, and [license-policy.md](license-policy.md) /
 [release-model.md](release-model.md) for the gates this walkthrough
@@ -232,9 +232,37 @@ kf eval-rag --domain demo --release-id demo-rag-v0.1.0
 against `domains/demo/eval_questions.yaml` — also embedded in the
 release manifest's `evaluation` field.
 
+### 14. Record sign-offs and approve the release
+
+```bash
+kf review --domain demo --target-type release --target-id demo-rag-v0.1.0 \
+  --role legal --decision approved --reviewer alice
+kf review --domain demo --target-type release --target-id demo-rag-v0.1.0 \
+  --role domain_sme --decision approved --reviewer bob
+
+kf review-status --domain demo --target-type release --target-id demo-rag-v0.1.0
+kf approve-release --domain demo --release-id demo-rag-v0.1.0
+```
+
+**Artefacts:** each `kf review` appends a `ReviewRecord` to
+`data/reviews/demo/reviews.jsonl` and prints the per-stage quorum status;
+`kf review-status` shows the same status read-only (non-zero exit while
+any required stage is unsatisfied, so scripts can gate on it).
+`kf approve-release` flips `manifest.json` to `state: "approved"`.
+
+**Gate:** approval is enforced, not declared. `kf approve-release`
+refuses — leaving the manifest untouched — unless the release is a clean
+`draft`, the pre-release gate still passes, an `EvaluationResult` is
+attached (step 13), and every `required` stage in
+`domains/demo/review_workflow.yaml` has its recorded sign-off quorum on
+this release. With the generic template every stage needs one approval:
+`legal` covers `license_review` and `release_review`, `domain_sme` covers
+`safety_review` and `evidence_review`. A recorded rejection blocks
+approval outright. See [release-model.md](release-model.md).
+
 ## What just happened: the gates
 
-Three gate functions did all the enforcement above, and they are pure
+Four gate functions did all the enforcement above, and they are pure
 TypeScript in `packages/core/src/gates/`, never LLM judgment (ADR-011):
 
 - **`preIngestGate`** — blocked step 4 unless the source was Green, or
@@ -244,6 +272,9 @@ TypeScript in `packages/core/src/gates/`, never LLM judgment (ADR-011):
 - **`preReleaseGate`** — evaluated all six release-blocking conditions at
   step 11 (and again at step 12) and produced the `gate_results` /
   `blockers` you see in the manifest.
+- **`evaluateReviewWorkflow`** — blocked step 14 until every required
+  `review_workflow.yaml` stage had its recorded sign-off quorum, and
+  would have blocked it on any recorded rejection.
 
 No agent, prompt, or skill instruction can talk any of these into passing
 early. See [license-policy.md](license-policy.md) and

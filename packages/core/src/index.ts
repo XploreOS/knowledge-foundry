@@ -7,9 +7,11 @@
 //                    JSON/JSONL/text IO, sha256, loadDomainConfig
 //   ids            — slugify, chunkId, claimId, riskId, conflictId, releaseDirName
 //   gates          — preIngestGate, citationGate, licenseConsistencyGate,
-//                    preReleaseGate, evaluateRelease (SAFETY-CRITICAL, pure)
+//                    preReleaseGate, evaluateRelease, evaluateReviewStage,
+//                    evaluateReviewWorkflow (SAFETY-CRITICAL, pure)
 //   domain         — initDomain, validateDomain
 //   sourceRegistry — createSource, listSources, getSource, updateSource
+//   reviews        — recordReview, listReviews, reviewsForTarget
 //   licensing      — classifyLicense
 //   ingestion      — ingest
 //   normalization  — normalize
@@ -18,7 +20,7 @@
 //   claims         — extractClaims
 //   risk           — screenRisk
 //   conflicts      — detectConflicts
-//   release        — buildRelease, validateRelease
+//   release        — buildRelease, validateRelease, approveRelease
 //   evals          — evalRag
 
 export * from './schemas/index.js';
@@ -27,6 +29,7 @@ export * from './ids/index.js';
 export * from './gates/index.js';
 export * from './domain/index.js';
 export * from './sourceRegistry/index.js';
+export * from './reviews/index.js';
 export * from './licensing/index.js';
 export * from './ingestion/index.js';
 export * from './normalization/index.js';

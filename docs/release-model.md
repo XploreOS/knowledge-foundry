@@ -107,15 +107,56 @@ draft → blocked | approved → indexed → deprecated
   records every reason in `blockers[]`; nothing is silently dropped.
   Fix the underlying issue and re-run `kf build-release` — do not hand-
   edit the manifest to force `state` to something else.
-- **`approved`** — legal, domain experts, and the product owner have
-  jointly signed off per `domains/<domain_id>/review_workflow.yaml`'s
-  `release_review` stage, `kf validate-release` reports no blocker, and
-  an `EvaluationResult` is attached. Only reachable from a clean
-  `draft`/`blocked` re-check.
+- **`approved`** — every required stage of
+  `domains/<domain_id>/review_workflow.yaml` has its recorded sign-off
+  quorum on this release, the pre-release gate still passes, and an
+  `EvaluationResult` is attached. Since v0.2 this is enforced by
+  `kf approve-release` (see below) — the only supported way to reach
+  `approved`, and only from a clean `draft`.
 - **`indexed`** — the release has been integrated into its target system
   (vector index, search index, training pipeline) per `intended_use`.
 - **`deprecated`** — superseded by a newer release; retained for audit
   history, no longer the active release for its domain/tier.
+
+## How a release becomes `approved` (v0.2)
+
+A reviewer's decision is data, not UI: each sign-off is a `ReviewRecord`
+appended to `data/reviews/<domain_id>/reviews.jsonl`:
+
+```bash
+kf review --domain <domain_id> --target-type release --target-id <release_id> \
+  --role <review_role> --decision approved --reviewer <name> [--note <s>]
+```
+
+The role must be declared in `domain.yaml`'s `review_roles`, and a review
+counts toward every `review_workflow.yaml` stage that lists that role.
+`kf review-status` shows the per-stage quorum verdict read-only (non-zero
+exit while any required stage is unsatisfied), and
+
+```bash
+kf approve-release --domain <domain_id> --release-id <release_id>
+```
+
+flips `manifest.json` to `state: "approved"` only when ALL of the
+following hold — otherwise it exits non-zero, prints every blocker, and
+leaves the manifest untouched:
+
+1. the manifest is in state `draft` (a `blocked` release must be rebuilt;
+   anything past `draft` is immutable),
+2. the pre-release gate re-passes against the live corpus,
+3. an `EvaluationResult` is attached (`kf eval-rag` has run),
+4. every `required` stage in `review_workflow.yaml` is satisfied by the
+   reviews recorded against this release.
+
+Stage satisfaction is computed by the pure
+`evaluateReviewWorkflow` gate (`packages/core/src/gates/index.ts`):
+only reviews by a role the stage lists count; a reviewer's latest
+decision wins (so a `rejected` can be superseded by a later `approved`
+from the same reviewer); `edited`/`needs_info` never count toward quorum;
+and any effective rejection blocks the stage outright. Quorum `"any"`
+needs one approval, `"all"` needs an approval from every listed role, and
+a number needs that many distinct approving reviewers across the listed
+roles.
 
 ## Immutability
 

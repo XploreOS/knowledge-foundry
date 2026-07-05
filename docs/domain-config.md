@@ -269,6 +269,19 @@ stage's `roles` should be drawn from `domain.yaml`'s `review_roles`.
 `quorum` is `"any"` (one signoff suffices), `"all"` (every listed role
 must sign off), or a specific integer count.
 
+Since v0.2 these stages are enforced in code, not just declared: `kf
+review` records each sign-off as a `ReviewRecord`, and `kf
+approve-release` refuses to approve a release until every `required`
+stage is satisfied by the recorded reviews (see
+[release-model.md](release-model.md)). Enforcement semantics
+(`evaluateReviewWorkflow` in `packages/core/src/gates/`): a review counts
+toward every stage that lists its role; a reviewer's latest decision
+wins; `edited`/`needs_info` never count toward quorum; any effective
+rejection blocks the stage; a numeric quorum counts distinct approving
+reviewers across the listed roles; and a stage with `required: false`
+never blocks. A role not declared in `domain.yaml`'s `review_roles`
+cannot record a review at all.
+
 Worked example (`packages/domain-templates/generic/review_workflow.yaml`):
 
 ```yaml

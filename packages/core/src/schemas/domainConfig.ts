@@ -176,13 +176,23 @@ export const RiskRulesYaml = z
   });
 export type RiskRulesYaml = z.infer<typeof RiskRulesYaml>;
 
-const ReviewWorkflowStage = z
+export const ReviewWorkflowStage = z
   .object({
     roles: z.array(z.string()),
     required: z.boolean(),
     quorum: z.union([z.literal('any'), z.literal('all'), z.number().int().positive()]),
   })
   .strict();
+export type ReviewWorkflowStage = z.infer<typeof ReviewWorkflowStage>;
+
+/** The four pipeline stages every review_workflow.yaml must declare, in order. */
+export const REVIEW_STAGES = [
+  'license_review',
+  'safety_review',
+  'evidence_review',
+  'release_review',
+] as const;
+export type ReviewStageName = (typeof REVIEW_STAGES)[number];
 
 /** review_workflow.yaml — which roles must approve each pipeline stage. */
 export const ReviewWorkflowYaml = z

@@ -1,6 +1,7 @@
 // Release assembly (contract-spec §2 ReleaseManifest, ADR-010). Gathers a
 // domain's advanced sources + their chunks/risks, runs the pre-release gate,
 // and writes either a blocked manifest (no chunks) or a draft release.
+// approveRelease then promotes a clean, evaluated, fully signed-off draft.
 
 import {
   ChunkRecord,
@@ -11,14 +12,17 @@ import {
 import type {
   AllowedUseKey,
   ChunkRecord as ChunkRecordType,
+  DomainConfig,
   LicenseClass,
   ReleaseManifest as ReleaseManifestType,
   RiskRecord as RiskRecordType,
   SourceRecord as SourceRecordType,
 } from '../schemas/index.js';
 import { REVIEW_STATES } from '../schemas/index.js';
-import { evaluateRelease } from '../gates/index.js';
+import { evaluateRelease, evaluateReviewWorkflow } from '../gates/index.js';
+import type { StageEvaluation } from '../gates/index.js';
 import { listSources } from '../sourceRegistry/index.js';
+import { reviewsForTarget } from '../reviews/index.js';
 import {
   resolveRoot,
   chunksFile,
@@ -180,4 +184,69 @@ export async function validateRelease(input: ValidateReleaseInput): Promise<Vali
     intendedUse: manifest.intended_use,
   });
   return { valid: allowed, blockers, manifest };
+}
+
+export interface ApproveReleaseInput extends WorkspaceOpts {
+  domainId: string;
+  releaseId: string;
+  now?: string;
+}
+
+export interface ApproveReleaseResult {
+  approved: boolean;
+  blockers: string[];
+  /** Per-stage quorum breakdown from the review-workflow gate. */
+  stages: StageEvaluation[];
+  manifest: ReleaseManifestType;
+}
+
+/**
+ * Promote a draft release to `approved` (release-model.md). Approval requires
+ * ALL of:
+ *   1. the manifest is in state `draft` (immutability: approved/indexed/
+ *      deprecated manifests are never re-edited; blocked ones are rebuilt),
+ *   2. the pre-release gate still passes against the live corpus,
+ *   3. an EvaluationResult is attached (kf eval-rag has run),
+ *   4. every required review_workflow.yaml stage has its recorded sign-off
+ *      quorum on THIS release (ReviewRecords with target_type=release).
+ * On any blocker the manifest is left untouched and the reasons are returned.
+ */
+export async function approveRelease(
+  config: DomainConfig,
+  input: ApproveReleaseInput,
+): Promise<ApproveReleaseResult> {
+  const root = resolveRoot(input);
+  const now = input.now ?? new Date().toISOString();
+  const manifestPath = releaseManifestFile(root, input.domainId, input.releaseId);
+  const manifest = await readJson(manifestPath, ReleaseManifest);
+
+  const blockers: string[] = [];
+
+  if (manifest.state !== 'draft') {
+    blockers.push(
+      manifest.state === 'blocked'
+        ? `release is blocked — fix the underlying issues and re-run build-release`
+        : `release is already ${manifest.state} — releases are immutable after draft; build a new release_id instead`,
+    );
+  }
+
+  const { sources, chunks, risks } = await loadReleaseData(root, input.domainId);
+  const gate = evaluateRelease({ sources, chunks, risks, intendedUse: manifest.intended_use });
+  blockers.push(...gate.blockers);
+
+  if (manifest.evaluation === undefined) {
+    blockers.push('no EvaluationResult attached — run eval-rag before approval');
+  }
+
+  const reviews = await reviewsForTarget(input.domainId, 'release', input.releaseId, input);
+  const workflow = evaluateReviewWorkflow(config.review_workflow, reviews);
+  blockers.push(...workflow.blockers);
+
+  if (blockers.length > 0) {
+    return { approved: false, blockers, stages: workflow.stages, manifest };
+  }
+
+  const approved = ReleaseManifest.parse({ ...manifest, state: 'approved', updated_at: now });
+  await writeJson(manifestPath, approved);
+  return { approved: true, blockers: [], stages: workflow.stages, manifest: approved };
 }

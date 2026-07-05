@@ -293,7 +293,9 @@ Owns ALL path construction. Workspace root defaults to `process.cwd()`, overrida
 ## 6. CLI commands (`packages/cli`) — 1:1 with core
 
 `kf <command> [--domain <id>] [--root <dir>] ...` for:
-init-domain, validate-domain, create-source, discover, classify-license, ingest, normalize, chunk, tag, extract-claims, screen-risk, detect-conflicts, build-release, eval-rag, validate-release.
+init-domain, validate-domain, create-source, discover, classify-license, ingest, normalize, chunk, tag, extract-claims, screen-risk, detect-conflicts, review, review-status, build-release, eval-rag, validate-release, approve-release.
+
+`review` appends a ReviewRecord (role must be in domain.yaml review_roles) and prints per-stage quorum status; `review-status` prints it read-only (non-zero exit while unsatisfied); `approve-release` moves a draft manifest to `state=approved` only when the pre-release gate re-passes, an EvaluationResult is attached, and every required review_workflow.yaml stage has its recorded sign-off quorum (pure gate `evaluateReviewWorkflow`).
 
 Every command: validate inputs/outputs with the zod schemas above; on validation or gate failure print a clear message and exit non-zero; on success exit 0. No hidden global state; deterministic output ordering (sort records by id).
 
