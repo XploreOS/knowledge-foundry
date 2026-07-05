@@ -1,6 +1,6 @@
 {
   "name": "@knowledge-foundry/skill",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "npx installer for the Knowledge Foundry Claude Code skill: governed corpus building with the kf CLI.",
   "type": "module",
   "license": "MIT",
@@ -25,7 +25,10 @@
   "bin": {
     "knowledge-foundry-skill": "./bin/install.mjs"
   },
-  "files": ["bin", "skill"],
+  "files": [
+    "bin",
+    "skill"
+  ],
   "publishConfig": {
     "access": "public"
   },
