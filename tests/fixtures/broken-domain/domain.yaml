@@ -1,0 +1,18 @@
+domain_id: broken-taxonomy
+display_name: Broken Taxonomy Domain
+description: >-
+  A deliberately malformed domain configuration used only by the test suite.
+  Every file except taxonomy.yaml is a valid copy of the generic template;
+  taxonomy.yaml uses the OLD entity_types shape (bare strings instead of
+  {id,name,description} records) so DomainConfig validation must reject it and
+  name the offending path.
+version: "0.1.0"
+primary_use_cases:
+  - internal knowledge base search
+prohibited_use_cases:
+  - redistribution of ingested content outside the organization
+review_roles:
+  - legal
+  - domain_sme
+  - product_owner
+default_release_use: rag

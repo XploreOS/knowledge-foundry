@@ -1,0 +1,7 @@
+questions:
+  - id: eval-001
+    question: What is the process for onboarding a new employee?
+    topics: [onboarding]
+    expects_citation: true
+thresholds:
+  citation_coverage: 0.9

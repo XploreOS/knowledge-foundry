@@ -1,0 +1,48 @@
+license_classes:
+  Green:
+    description: Public domain or explicitly licensed for reuse; safe to ingest and use broadly.
+    requires_review: false
+    default_allowed_uses:
+      internal_search: true
+      rag: true
+      extraction: true
+      summarization: true
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Yellow:
+    description: License terms are unclear or reuse rights are uncertain; requires legal review before broader use.
+    requires_review: true
+    default_allowed_uses:
+      internal_search: true
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Orange:
+    description: Commercial or proprietary content requiring contract approval before ingestion.
+    requires_review: true
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+  Red:
+    description: Explicitly prohibited from ingestion or use under any circumstance.
+    requires_review: false
+    default_allowed_uses:
+      internal_search: false
+      rag: false
+      extraction: false
+      summarization: false
+      fine_tuning: false
+      customer_facing: false
+      commercial_distribution: false
+blockers:
+  - "No-redistribution license: source terms explicitly forbid redistribution outside the organization (block)."
+uncertain_defaults_to: Yellow

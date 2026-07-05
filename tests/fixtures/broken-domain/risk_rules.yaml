@@ -1,0 +1,12 @@
+categories:
+  - unsupported_claim
+rules:
+  - id: block-unverified-superlative-claims
+    category: unsupported_claim
+    description: Block claims that use absolute or superlative language without a cited source.
+    match:
+      keywords:
+        - guaranteed
+        - "100% effective"
+    action: block
+    severity: medium

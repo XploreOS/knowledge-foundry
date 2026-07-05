@@ -1,0 +1,25 @@
+# DELIBERATELY BROKEN: entity_types must be an array of {id,name,description}
+# records, but here they are bare strings (the old, pre-contract shape). Loading
+# this domain must fail validation at path `taxonomy.entity_types.0`.
+entity_types:
+  - topic
+  - term
+  - procedure_step
+  - resource
+  - role
+chunk_types:
+  - id: section
+    name: Section
+    description: A titled subsection of a longer document.
+  - id: definition
+    name: Definition
+    description: A short chunk that defines a single term or concept.
+audiences:
+  - internal_staff
+metadata_fields:
+  - id: source_url
+    description: Canonical URL or file path the content was ingested from.
+    required: false
+topics:
+  - onboarding
+  - policies
