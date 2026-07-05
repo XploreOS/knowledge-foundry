@@ -2,8 +2,14 @@
 # commits on main; merging it tags releases and publishes every not-yet-
 # published workspace to npm with provenance.
 #
-# Required repository secret: NPM_TOKEN — an npm granular access token with
-# read/write on the @knowledge-foundry packages (or org).
+# Required repository secrets:
+#   NPM_TOKEN — npm granular access token with read/write on the
+#     @knowledge-foundry packages (or org).
+#   RELEASE_PLEASE_TOKEN — fine-grained PAT (this repo; Contents: read/write,
+#     Pull requests: read/write). Lets the action open the release PR without
+#     the org-level "Actions may create PRs" setting, and makes CI run on the
+#     release PR (PRs opened by the default GITHUB_TOKEN trigger no workflows).
+#     Falls back to GITHUB_TOKEN when unset.
 
 name: Release Please
 
@@ -26,6 +32,7 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v5
         with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN || github.token }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
