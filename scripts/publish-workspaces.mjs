@@ -2,6 +2,10 @@
 // registry. Run by .github/workflows/release-please.yml after a release PR
 // merges; safe to re-run (already-published versions are skipped, and a
 // failure in one package does not silently swallow the others).
+//
+// Auth is OIDC trusted publishing (no token): each package's npmjs.com
+// settings name this repo + workflow as its trusted publisher, and npm
+// generates provenance automatically. Requires npm >= 11.5.1 in CI.
 
 import { execSync, spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -38,7 +42,7 @@ for (const workspace of rootPkg.workspaces) {
   console.log(`publish ${spec}`);
   const result = spawnSync(
     'npm',
-    ['publish', '--workspace', pkg.name, '--provenance', '--access', 'public'],
+    ['publish', '--workspace', pkg.name, '--access', 'public'],
     { stdio: 'inherit', shell: process.platform === 'win32' },
   );
   if (result.status !== 0) {

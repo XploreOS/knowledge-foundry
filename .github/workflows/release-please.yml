@@ -2,9 +2,16 @@
 # commits on main; merging it tags releases and publishes every not-yet-
 # published workspace to npm with provenance.
 #
-# Required repository secrets:
-#   NPM_TOKEN — npm granular access token with read/write on the
-#     @knowledge-foundry packages (or org).
+# npm auth: OIDC trusted publishing — NO npm token secret. Each package on
+# npmjs.com must have a trusted publisher configured (Settings → Trusted
+# Publisher): org XploreOS, repo knowledge-foundry, workflow filename
+# "release-please.yml". npm only allows configuring this on packages that
+# already exist, so the FIRST publish of a new package is manual
+# (npm publish --workspace <name> --access public from a logged-in machine);
+# every subsequent release publishes tokenlessly from here, with provenance
+# generated automatically.
+#
+# Required repository secret:
 #   RELEASE_PLEASE_TOKEN — fine-grained PAT (this repo; Contents: read/write,
 #     Pull requests: read/write). Lets the action open the release PR without
 #     the org-level "Actions may create PRs" setting, and makes CI run on the
@@ -49,10 +56,9 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          registry-url: 'https://registry.npmjs.org'
+      # Trusted publishing needs npm >= 11.5.1 (Node 22 bundles npm 10)
+      - run: npm install -g npm@latest
       - run: npm ci
       - run: npm test
-      - name: Publish workspaces to npm
+      - name: Publish workspaces to npm (OIDC trusted publishing)
         run: node scripts/publish-workspaces.mjs
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
