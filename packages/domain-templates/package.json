@@ -1,6 +1,6 @@
 {
   "name": "@knowledge-foundry/domain-templates",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Starter domain configuration templates for Knowledge Foundry: generic, healthcare, legal, finance, enterprise.",
   "type": "module",
   "license": "MIT",
@@ -21,7 +21,13 @@
   "engines": {
     "node": ">=20"
   },
-  "files": ["generic", "healthcare", "legal", "finance", "enterprise"],
+  "files": [
+    "generic",
+    "healthcare",
+    "legal",
+    "finance",
+    "enterprise"
+  ],
   "publishConfig": {
     "access": "public"
   }
